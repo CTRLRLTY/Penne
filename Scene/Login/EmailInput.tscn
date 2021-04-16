@@ -1,0 +1,8 @@
+[gd_scene format=2]
+
+[node name="EmailInput" type="LineEdit"]
+margin_top = 41.0
+margin_right = 140.0
+margin_bottom = 61.0
+align = 1
+placeholder_text = "E-mail"

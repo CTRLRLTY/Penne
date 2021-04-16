@@ -1,0 +1,398 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://resources/login.theme" type="Theme" id=1]
+[ext_resource path="res://resources/EmailInput.stylebox" type="StyleBox" id=2]
+[ext_resource path="res://resources/LoginButton.stylebox" type="StyleBox" id=3]
+[ext_resource path="res://asset/loginbg.png" type="Texture" id=4]
+[ext_resource path="res://asset/LibreBarcode39ExtendedText-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Scene/Login/EmailInput.tscn" type="PackedScene" id=6]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends TextureRect
+
+export(NodePath) var TweenPath : NodePath
+export(NodePath) var VanillaLoginPath : NodePath
+export(NodePath) var VanillaRegisterPath : NodePath
+
+onready var tween : Tween = get_node(TweenPath)
+onready var vanilla_login : Label = get_node(VanillaLoginPath)
+onready var vanilla_register : Label = get_node(VanillaRegisterPath)
+
+var vanilla : Node
+
+func _on_RegisterLink_pressed():
+	add_child(vanilla)
+	tween.interpolate_property(
+		vanilla, 
+		\"rect_position\", 
+		vanilla_login.rect_global_position,
+		vanilla_register.rect_global_position, 
+		0.5)
+	tween.interpolate_property(
+		vanilla, 
+		\"custom_fonts/font:size\", 
+		vanilla_login[\"custom_fonts/font\"].size,
+		vanilla_register[\"custom_fonts/font\"].size, 
+		0.5)
+	tween.start()
+
+
+func _on_Tween_tween_all_completed():
+	if vanilla:
+		vanilla.queue_free()
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends HBoxContainer
+
+export(NodePath) var EmailInput_path
+export(NodePath) var PasswordInput_path
+
+var email
+var password
+
+onready var EmailInput : LineEdit = get_node(EmailInput_path)
+onready var PasswordInput : LineEdit = get_node(PasswordInput_path)
+
+func _on_LoginButton_pressed():
+	var file = File.new()
+	
+	if file.file_exists(Globals.user_file_path):
+		file.open(Globals.user_file_path, File.READ)
+		var user_map : Dictionary = JSON.parse(file.get_as_text()).result
+		if user_map is Dictionary:
+			if user_map.has(email) and user_map[email][\"password\"] == password:
+				print_debug(\"Yeah you good\")
+			else:
+				print_debug(\"dumbass wrong pass\")
+	else:
+		print_debug(\"%s don't exist\" % email)
+			
+	
+func _on_EmailInput_text_changed(new_text):
+	email = new_text
+
+func _on_PasswordInput_text_changed(new_text):
+	password = new_text
+"
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 1, 1, 1, 0.462745 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 30
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="DynamicFontData" id=7]
+font_path = "res://asset/roboto/Roboto-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=8]
+use_filter = true
+font_data = SubResource( 7 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 60
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 1, 1, 1, 0.462745 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0, 0, 0, 0.3 )
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 20
+
+[sub_resource type="DynamicFont" id=12]
+use_filter = true
+font_data = SubResource( 7 )
+
+[node name="Login" type="TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+texture = ExtResource( 4 )
+expand = true
+script = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+TweenPath = NodePath("Tween")
+VanillaLoginPath = NodePath("LoginContainer/Right/VanillaLogin")
+VanillaRegisterPath = NodePath("LoginContainer/Left/MarginContainer/VBoxContainer/VanillaRegister")
+
+[node name="LoginContainer" type="HBoxContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left" type="PanelContainer" parent="LoginContainer"]
+margin_right = 240.0
+margin_bottom = 360.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true,
+"_editor_description_": ""
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="LoginContainer/Left"]
+margin_right = 240.0
+margin_bottom = 360.0
+custom_constants/margin_top = 50
+custom_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoginContainer/Left/MarginContainer"]
+margin_top = 50.0
+margin_right = 240.0
+margin_bottom = 330.0
+custom_constants/separation = 0
+
+[node name="VanillaRegister" type="Label" parent="LoginContainer/Left/MarginContainer/VBoxContainer"]
+visible = false
+margin_left = 16.0
+margin_right = 204.0
+margin_bottom = 61.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Vanilla"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="LoginContainer/Left/MarginContainer/VBoxContainer"]
+margin_top = 61.0
+margin_right = 240.0
+margin_bottom = 280.0
+size_flags_vertical = 10
+custom_constants/margin_right = 50
+custom_constants/margin_left = 50
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer"]
+margin_left = 50.0
+margin_right = 190.0
+margin_bottom = 219.0
+custom_constants/separation = 31
+
+[node name="LineEditContainer" type="VBoxContainer" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 140.0
+margin_bottom = 61.0
+rect_min_size = Vector2( 140, 0 )
+custom_constants/separation = 21
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="EmailInput" type="LineEdit" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer"]
+margin_right = 140.0
+margin_bottom = 20.0
+custom_styles/focus = SubResource( 5 )
+custom_styles/normal = ExtResource( 2 )
+custom_colors/selection_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 0.741176 )
+align = 1
+placeholder_text = "E-mail"
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="PasswordInput" type="LineEdit" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer"]
+margin_top = 41.0
+margin_right = 140.0
+margin_bottom = 61.0
+custom_styles/focus = SubResource( 6 )
+custom_styles/normal = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 0.741176 )
+align = 1
+placeholder_text = "Password"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LoginButton" type="Button" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 92.0
+margin_right = 140.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 0, 48 )
+custom_styles/normal = ExtResource( 3 )
+custom_fonts/font = SubResource( 8 )
+text = "Login"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 171.0
+margin_right = 140.0
+margin_bottom = 219.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RegisterLink" type="LinkButton" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_left = 23.0
+margin_right = 116.0
+margin_bottom = 19.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_colors/font_color = Color( 0.337255, 0.337255, 0.337255, 1 )
+action_mode = 0
+text = "Register Here"
+
+[node name="ForgotPassLink" type="LinkButton" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_left = 10.0
+margin_top = 29.0
+margin_right = 130.0
+margin_bottom = 48.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_colors/font_color = Color( 0.337255, 0.337255, 0.337255, 1 )
+text = "Forgot Password"
+
+[node name="Right" type="CenterContainer" parent="LoginContainer"]
+margin_left = 240.0
+margin_right = 640.0
+margin_bottom = 360.0
+size_flags_horizontal = 3
+
+[node name="VanillaLogin" type="Label" parent="LoginContainer/Right"]
+margin_left = 11.0
+margin_top = 150.0
+margin_right = 388.0
+margin_bottom = 210.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Vanilla"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": true
+}
+
+[node name="RegisterContainer" type="PanelContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -110.0
+margin_top = -180.0
+margin_right = 110.0
+margin_bottom = 180.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 10 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="RegisterContainer"]
+margin_right = 240.0
+margin_bottom = 360.0
+custom_constants/margin_top = 50
+custom_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RegisterContainer/MarginContainer"]
+margin_top = 50.0
+margin_right = 240.0
+margin_bottom = 330.0
+custom_constants/separation = 0
+
+[node name="VanillaRegister" type="Label" parent="RegisterContainer/MarginContainer/VBoxContainer"]
+margin_left = 26.0
+margin_right = 214.0
+margin_bottom = 58.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Vanilla"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="RegisterContainer/MarginContainer/VBoxContainer"]
+margin_top = 58.0
+margin_right = 240.0
+margin_bottom = 280.0
+size_flags_vertical = 10
+custom_constants/margin_right = 50
+custom_constants/margin_left = 50
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer"]
+margin_left = 50.0
+margin_right = 190.0
+margin_bottom = 222.0
+custom_constants/separation = 31
+
+[node name="LineEditContainer" type="VBoxContainer" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 140.0
+margin_bottom = 143.0
+rect_min_size = Vector2( 140, 0 )
+custom_constants/separation = 21
+
+[node name="FullNameInput" type="LineEdit" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer"]
+margin_right = 140.0
+margin_bottom = 20.0
+align = 1
+placeholder_text = "Full Name"
+
+[node name="EmailInput" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer" instance=ExtResource( 6 )]
+
+[node name="PasswordInput" type="LineEdit" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer"]
+margin_top = 82.0
+margin_right = 140.0
+margin_bottom = 102.0
+align = 1
+secret = true
+placeholder_text = "Password"
+
+[node name="ConfirmPassInput" type="LineEdit" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer"]
+margin_top = 123.0
+margin_right = 140.0
+margin_bottom = 143.0
+align = 1
+secret = true
+placeholder_text = "Confirm Password"
+
+[node name="RegisterButton" type="Button" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 174.0
+margin_right = 140.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 0, 48 )
+custom_styles/normal = SubResource( 11 )
+custom_fonts/font = SubResource( 12 )
+text = "Register"
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="text_changed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/EmailInput" to="LoginContainer" method="_on_EmailInput_text_changed"]
+[connection signal="text_changed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/PasswordInput" to="LoginContainer" method="_on_PasswordInput_text_changed"]
+[connection signal="pressed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/RegisterLink" to="." method="_on_RegisterLink_pressed"]
+[connection signal="pressed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/RegisterButton" to="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer" method="_on_LoginButton_pressed"]
+[connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]
