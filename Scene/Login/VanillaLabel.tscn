@@ -2,23 +2,21 @@
 
 [ext_resource path="res://asset/LibreBarcode39ExtendedText-Regular.ttf" type="DynamicFontData" id=1]
 
-[sub_resource type="DynamicFont" id=1]
-size = 60
+[sub_resource type="DynamicFont" id=4]
+size = 30
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[node name="VanillaLogin" type="Label"]
-margin_left = 21.0
-margin_top = 150.0
-margin_right = 398.0
-margin_bottom = 210.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-custom_fonts/font = SubResource( 1 )
+[node name="VanillaRegister" type="Label"]
+margin_left = 56.0
+margin_right = 244.0
+margin_bottom = 58.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Vanilla"
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": true
 }

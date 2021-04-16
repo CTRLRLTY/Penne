@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/BackButton.stylebox" type="StyleBox" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=13]
+
+[node name="BackButton" type="Button"]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_styles/hover = ExtResource( 1 )
+custom_styles/pressed = ExtResource( 1 )
+custom_styles/focus = SubResource( 13 )
+custom_styles/normal = ExtResource( 1 )
