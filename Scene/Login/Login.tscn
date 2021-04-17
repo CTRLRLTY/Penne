@@ -2,10 +2,9 @@
 
 [ext_resource path="res://resources/login.theme" type="Theme" id=1]
 [ext_resource path="res://resources/EmailInput.stylebox" type="StyleBox" id=2]
-[ext_resource path="res://resources/LoginButton.stylebox" type="StyleBox" id=3]
+[ext_resource path="res://resources/Background.stylebox" type="StyleBox" id=3]
 [ext_resource path="res://asset/loginbg.png" type="Texture" id=4]
 [ext_resource path="res://asset/LibreBarcode39ExtendedText-Regular.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://Scene/Login/EmailInput.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scene/Login/BackButton.tscn" type="PackedScene" id=7]
 
 [sub_resource type="GDScript" id=1]
@@ -81,6 +80,16 @@ var password
 onready var EmailInput : LineEdit = get_node(EmailInput_path)
 onready var PasswordInput : LineEdit = get_node(PasswordInput_path)
 
+func _ready():
+	var file = File.new()
+	if file.file_exists(Globals.user_file_path):
+		file.open(Globals.user_file_path, File.READ)
+		print(file.get_as_text())
+	else:
+		print_debug(\"Database doesn't exist\")
+	
+	file.close()
+
 func _on_LoginButton_pressed():
 	var file = File.new()
 	
@@ -90,10 +99,11 @@ func _on_LoginButton_pressed():
 		if user_map is Dictionary:
 			if user_map.has(email) and user_map[email][\"password\"] == password:
 				print_debug(\"Yeah you good\")
+				SceneChanger.change_scene(Globals.MainMenuScene, \"fade\")
 			else:
 				print_debug(\"dumbass wrong pass\")
 	else:
-		print_debug(\"%s don't exist\" % email)
+		print_debug(\"%s don't exist \" % email)
 			
 	
 func _on_EmailInput_text_changed(new_text):
@@ -110,10 +120,18 @@ bg_color = Color( 1, 1, 1, 0.462745 )
 
 [sub_resource type="StyleBoxEmpty" id=6]
 
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0, 0, 0, 0.3 )
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 20
+
 [sub_resource type="DynamicFontData" id=7]
 font_path = "res://asset/roboto/Roboto-Regular.ttf"
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=17]
 use_filter = true
 font_data = SubResource( 7 )
 
@@ -123,8 +141,78 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 5 )
 
-[sub_resource type="StyleBoxFlat" id=10]
-bg_color = Color( 1, 1, 1, 0.462745 )
+[sub_resource type="GDScript" id=15]
+script/source = "extends PanelContainer
+
+var fullname : String
+var email : String
+var password : String
+var confirm_password : String
+
+var valid := false
+
+func _on_FullNameInput_text_changed(new_text):
+	fullname = new_text
+
+func _on_EmailInput_text_changed(new_text):
+	email = new_text
+
+func _on_PasswordInput_text_changed(new_text):
+	password = new_text
+
+func _on_ConfirmPassInput_text_changed(new_text):
+	confirm_password = new_text
+
+func _on_RegisterButton_pressed():
+	var arr = [fullname, email, password, confirm_password]
+	
+	#Check if any form is empty
+	for text in arr:
+		if text.empty():
+			valid = false
+			break
+		valid = true
+	
+	#Validate simple val pass
+	valid = valid and password == confirm_password
+	
+	if valid:
+		var file = File.new()
+		
+		var new_user = {
+				\"fullname\": fullname,
+				\"password\": password
+			}
+		
+		if file.file_exists(Globals.user_file_path):
+			file.open(Globals.user_file_path, File.READ_WRITE)
+		else:
+			file.open(Globals.user_file_path, File.WRITE)
+		
+		var user_data = JSON.parse(file.get_as_text()).result
+		
+		if user_data is Dictionary:
+			user_data[email] = new_user
+		else:
+			user_data = {
+				email: new_user
+				}
+		file.store_string(to_json(user_data))
+		print_debug(file.get_as_text())
+		file.close()
+	
+		
+	else:
+		print_debug(\"Its not valid \", arr)
+		
+			
+		
+		
+		
+		
+		
+		
+"
 
 [sub_resource type="DynamicFont" id=14]
 size = 30
@@ -152,7 +240,6 @@ texture = ExtResource( 4 )
 expand = true
 script = SubResource( 1 )
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 TweenPath = NodePath("Tween")
@@ -163,7 +250,6 @@ RegisterContainerPath = NodePath("RegisterContainer")
 BackButtonPath = NodePath("BackButton")
 
 [node name="LoginContainer" type="HBoxContainer" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 0
@@ -172,6 +258,8 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+EmailInput_path = NodePath("Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/EmailInput")
+PasswordInput_path = NodePath("Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/PasswordInput")
 
 [node name="Left" type="PanelContainer" parent="LoginContainer"]
 margin_right = 240.0
@@ -254,8 +342,8 @@ margin_top = 92.0
 margin_right = 140.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 0, 48 )
-custom_styles/normal = ExtResource( 3 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/normal = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
 text = "Login"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
@@ -309,13 +397,15 @@ __meta__ = {
 }
 
 [node name="RegisterContainer" type="PanelContainer" parent="."]
+visible = false
 anchor_left = 0.265625
 anchor_right = 0.734375
 anchor_bottom = 1.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 0
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = ExtResource( 3 )
+script = SubResource( 15 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": true,
@@ -377,8 +467,12 @@ margin_bottom = 20.0
 align = 1
 placeholder_text = "Full Name"
 
-[node name="EmailInput" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer" instance=ExtResource( 6 )]
+[node name="EmailInput" type="LineEdit" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer"]
+margin_top = 41.0
 margin_right = 200.0
+margin_bottom = 61.0
+align = 1
+placeholder_text = "E-mail"
 
 [node name="PasswordInput" type="LineEdit" parent="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer"]
 margin_top = 82.0
@@ -406,11 +500,17 @@ custom_fonts/font = SubResource( 12 )
 text = "Register"
 
 [node name="BackButton" parent="." instance=ExtResource( 7 )]
+visible = false
 
 [node name="Tween" type="Tween" parent="."]
 [connection signal="text_changed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/EmailInput" to="LoginContainer" method="_on_EmailInput_text_changed"]
 [connection signal="text_changed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/PasswordInput" to="LoginContainer" method="_on_PasswordInput_text_changed"]
+[connection signal="pressed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LoginButton" to="LoginContainer" method="_on_LoginButton_pressed"]
 [connection signal="pressed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/RegisterLink" to="." method="_on_RegisterLink_pressed"]
-[connection signal="pressed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/RegisterButton" to="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer" method="_on_LoginButton_pressed"]
+[connection signal="text_changed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/FullNameInput" to="RegisterContainer" method="_on_FullNameInput_text_changed"]
+[connection signal="text_changed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/EmailInput" to="RegisterContainer" method="_on_EmailInput_text_changed"]
+[connection signal="text_changed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/PasswordInput" to="RegisterContainer" method="_on_PasswordInput_text_changed"]
+[connection signal="text_changed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/ConfirmPassInput" to="RegisterContainer" method="_on_ConfirmPassInput_text_changed"]
+[connection signal="pressed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/RegisterButton" to="RegisterContainer" method="_on_RegisterButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]
