@@ -23,13 +23,11 @@ func _open_gallery():
 		Globals.image_plugin.getGalleryImage()
 	else:
 		print_debug("Globals.image_plugin not found")
-		var current_image = Image.new()
-		current_image.load("res://icon.png")
-		yield(get_tree(), "idle_frame")
-		var image_texture := ImageTexture.new()
-		image_texture.create_from_image(current_image)
-		print(current_image)
-		image_rect.texture = image_texture
+#		var current_image = Image.new()
+#		current_image.load("res://asset/godot.png")
+#		var image_texture : ImageTexture = ImageTexture.new()
+#		image_texture.create_from_image(current_image)
+#		image_rect.texture = image_texture
 		
 func _set_product(product : Dictionary):
 	product["id"] = Globals.resource_db.size()
@@ -60,10 +58,9 @@ func _on_SaveButton_pressed():
 		"amount": amount_prop.prop_value,
 		"price": price_prop.prop_value,
 		"modal": modal_prop.prop_value,
-		"imagePath": ""
 	}
 
-	var bitmask = ResourceSaver.FLAG_CHANGE_PATH + ResourceSaver.FLAG_COMPRESS
+	var bitmask = ResourceSaver.FLAG_COMPRESS
 
 	if Globals.resource_db:
 		_set_product(product)
@@ -74,13 +71,16 @@ func _on_SaveButton_pressed():
 		
 	if image_rect.texture:
 		ResourceSaver.save(product["imagePath"], image_rect.texture, bitmask)
-		print_debug("Saving image to %s" % product["imagePath"])
+	else:
+		product["imagePath"] = "res://asset/godot.png"
+	
+	print_debug("Saving image to %s" % product["imagePath"])
 	
 	file.open(Globals.rsc_file_path, File.WRITE)
 	file.store_string(to_json(Globals.resource_db))
 	file.close()
 	
-	print_debug(to_json(Globals.resource_db))
+	print_debug("Product Saved: ", Globals.resource_db[product["id"]])
 	
 func _on_EditImageButton_pressed():
 	_open_gallery()

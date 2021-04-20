@@ -13,11 +13,7 @@ func _gui_input(event):
 
 func change_attr(attr : Dictionary):
 	properties = attr
-	var image = Image.new()
-	image.load(attr.imagePath)
-	var image_texture = ImageTexture.new()
-	image_texture.create_from_image(image)
-	product_thumbnail.texture = image_texture
+	product_thumbnail.texture = load(attr.imagePath)
 	
 	product_name.text = attr.name
 	product_stock.text = attr.amount
