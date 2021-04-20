@@ -10,10 +10,10 @@ script/source = "extends TextureRect
 
 
 func _on_ProsesButton_pressed():
-	pass # Replace with function body.
+	pass
 
 func _on_ManageButton_pressed():
-	pass # Replace with function body.
+	SceneChanger.change_scene(\"res://Scene/Product/EditProduct.tscn\", \"fade\")
 
 func _on_LaporanButton_pressed():
 	pass # Replace with function body.
@@ -70,28 +70,28 @@ custom_constants/separation = 30
 margin_right = 142.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 142, 50 )
-text = "Proses Transaksi"
+text = "Transaksi"
 
 [node name="ManageButton" type="Button" parent="HBoxContainer/Main/ButtonContainer"]
 margin_top = 80.0
 margin_right = 142.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 142, 50 )
-text = "Manage Transaksi"
+text = "Produk"
 
 [node name="LaporanButton" type="Button" parent="HBoxContainer/Main/ButtonContainer"]
 margin_top = 160.0
 margin_right = 142.0
 margin_bottom = 210.0
 rect_min_size = Vector2( 142, 50 )
-text = "Laporan Transaksi"
+text = "Laporan"
 
 [node name="RecapButton" type="Button" parent="HBoxContainer/Main/ButtonContainer"]
 margin_top = 240.0
 margin_right = 142.0
 margin_bottom = 290.0
 rect_min_size = Vector2( 142, 50 )
-text = "Rekap Transaksi"
+text = "Rekap"
 
 [node name="RightAside" type="PanelContainer" parent="HBoxContainer"]
 margin_left = 427.0

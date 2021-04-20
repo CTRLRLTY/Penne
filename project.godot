@@ -24,6 +24,13 @@ config/icon="res://icon.png"
 Globals="*res://autoload/Globals.gd"
 SceneChanger="*res://autoload/SceneChanger.tscn"
 
+[debug]
+
+gdscript/warnings/unused_argument=false
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/unsafe_cast=true
+
 [display]
 
 window/size/width=640
@@ -37,6 +44,10 @@ register={
 "deadzone": 0.5,
 "events": [  ]
 }
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [rendering]
 
