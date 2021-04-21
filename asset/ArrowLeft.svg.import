@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/back.png-f9810f4579ebf1565f4bbb0cda3a08c6.stex"
+path="res://.import/ArrowLeft.svg-0f0e9dfa16819d9ce836c298a677e523.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asset/back.png"
-dest_files=[ "res://.import/back.png-f9810f4579ebf1565f4bbb0cda3a08c6.stex" ]
+source_file="res://asset/ArrowLeft.svg"
+dest_files=[ "res://.import/ArrowLeft.svg-0f0e9dfa16819d9ce836c298a677e523.stex" ]
 
 [params]
 
@@ -21,8 +21,8 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=true
-flags/anisotropic=true
+flags/mipmaps=false
+flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
@@ -31,4 +31,4 @@ process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true
-svg/scale=1.0
+svg/scale=4.0

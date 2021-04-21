@@ -70,6 +70,7 @@ custom_constants/separation = 30
 margin_right = 142.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 142, 50 )
+mouse_default_cursor_shape = 2
 text = "Transaksi"
 
 [node name="ManageButton" type="Button" parent="HBoxContainer/Main/ButtonContainer"]
@@ -77,6 +78,7 @@ margin_top = 80.0
 margin_right = 142.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 142, 50 )
+mouse_default_cursor_shape = 2
 text = "Produk"
 
 [node name="LaporanButton" type="Button" parent="HBoxContainer/Main/ButtonContainer"]
@@ -84,6 +86,7 @@ margin_top = 160.0
 margin_right = 142.0
 margin_bottom = 210.0
 rect_min_size = Vector2( 142, 50 )
+mouse_default_cursor_shape = 2
 text = "Laporan"
 
 [node name="RecapButton" type="Button" parent="HBoxContainer/Main/ButtonContainer"]
@@ -91,6 +94,7 @@ margin_top = 240.0
 margin_right = 142.0
 margin_bottom = 290.0
 rect_min_size = Vector2( 142, 50 )
+mouse_default_cursor_shape = 2
 text = "Rekap"
 
 [node name="RightAside" type="PanelContainer" parent="HBoxContainer"]

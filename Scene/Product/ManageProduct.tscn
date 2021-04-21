@@ -124,3 +124,4 @@ margin_bottom = 284.0
 [node name="BackButton" parent="." instance=ExtResource( 5 )]
 [connection signal="pressed" from="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer/PrevPage" to="." method="_on_PrevPage_pressed"]
 [connection signal="pressed" from="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer/NextPage" to="." method="_on_NextPage_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]

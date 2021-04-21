@@ -14,5 +14,6 @@ custom_styles/pressed = ExtResource( 1 )
 custom_styles/focus = SubResource( 1 )
 custom_styles/normal = ExtResource( 1 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": true
 }

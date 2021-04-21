@@ -59,4 +59,5 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 2.0
 anims/fade = SubResource( 1 )

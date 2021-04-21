@@ -15,7 +15,9 @@ corner_detail = 10
 [node name="ProductItem" type="PanelContainer"]
 anchor_right = 0.348438
 anchor_bottom = 0.233333
-rect_min_size = Vector2( 223, 0 )
+margin_right = -0.000305176
+margin_bottom = 0.00012207
+rect_min_size = Vector2( 223, 84 )
 mouse_default_cursor_shape = 2
 theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 1 )
@@ -67,6 +69,7 @@ margin_right = 97.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Name"
 align = 1
 
@@ -76,5 +79,6 @@ margin_right = 97.0
 margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "0"
 align = 1

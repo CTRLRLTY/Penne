@@ -83,3 +83,6 @@ func _on_Product_gui_input(event):
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			SceneChanger.cache = current_page
+
+func _on_BackButton_pressed() -> void:
+	SceneChanger.change_scene(Globals.MainMenuScene, "fade")
