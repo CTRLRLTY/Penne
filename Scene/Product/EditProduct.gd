@@ -1,21 +1,21 @@
 extends "res://Scene/Product/NewProduct.gd"
 
-var id
-var image_path := ""
+var attribute
+
+func _ready():
+	image_rect.texture = load(attribute.imagePath)	
+	
+	name_prop.prop_value = attribute.name
+	amount_prop.prop_value = attribute.amount
+	modal_prop.prop_value = attribute.modal
+	price_prop.prop_value = attribute.price
 
 func _set_product(product : Dictionary):
-	product.id = id
-	Globals.resource_db[id] = product
-	product.imagePath = image_path
+	product.id = attribute.id
+	Globals.resource_db[attribute.id] = product
+	product.imagePath = attribute.image_path
 
-func bootload(attr):
+func bootload(attribute):
 	print_debug("Starting bootloader...")
-	image_rect.texture = load(attr.imagePath)
+	self.attribute = attribute
 	
-	self.id = attr.id
-	self.image_path = attr.imagePath
-	
-	name_prop.prop_value = attr.name
-	amount_prop.prop_value = attr.amount
-	modal_prop.prop_value = attr.modal
-	price_prop.prop_value = attr.price

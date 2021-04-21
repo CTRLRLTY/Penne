@@ -1,10 +1,11 @@
 extends Node
 
-const LoginScene = "res://Scene/Login/Login.tscn"
-const MainMenuScene = "res://Scene/MainMenu.tscn"
+const LoginScene = preload("res://Scene/Login/Login.tscn")
+const MainMenuScene = preload("res://Scene/MainMenu.tscn")
 
-const NewProductScene = "res://Scene/Product/NewProduct.tscn"
-const EditProductScene = "res://Scene/Product/EditProduct.tscn"
+const NewProductScene = preload("res://Scene/Product/NewProduct.tscn")
+const EditProductScene = preload("res://Scene/Product/EditProduct.tscn")
+const ManageProductScene = preload("res://Scene/Product/ManageProduct.tscn")
 
 const user_file_path = "user://users.json"
 const rsc_file_path = "user://resources.json"

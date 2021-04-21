@@ -13,7 +13,7 @@ func _on_ProsesButton_pressed():
 	pass
 
 func _on_ManageButton_pressed():
-	SceneChanger.change_scene(\"res://Scene/Product/EditProduct.tscn\", \"fade\")
+	SceneChanger.change_scene(Globals.ManageProductScene, \"fade\")
 
 func _on_LaporanButton_pressed():
 	pass # Replace with function body.

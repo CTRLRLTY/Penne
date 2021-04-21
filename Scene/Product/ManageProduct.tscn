@@ -115,7 +115,7 @@ margin_top = 200.0
 margin_right = 223.0
 margin_bottom = 284.0
 
-[node name="AddProductItem" parent="VBoxContainer/ProductContainer/GridContainer" instance_placeholder="res://Scene/Login/AddProductItem.tscn"]
+[node name="AddProductItem" parent="VBoxContainer/ProductContainer/GridContainer" instance_placeholder="res://Scene/Product/AddProductItem.tscn"]
 margin_left = 294.0
 margin_top = 200.0
 margin_right = 517.0
