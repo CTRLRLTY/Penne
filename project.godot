@@ -40,7 +40,11 @@ window/stretch/aspect="expand"
 
 [input]
 
-register={
+pay_cash={
+"deadzone": 0.5,
+"events": [  ]
+}
+pay_card={
 "deadzone": 0.5,
 "events": [  ]
 }

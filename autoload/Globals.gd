@@ -2,11 +2,15 @@ extends Node
 
 const LoginScene = preload("res://Scene/Login/Login.tscn")
 const MainMenuScene = preload("res://Scene/MainMenu.tscn")
+const PaymentMenuScene = preload("res://Scene/PaymentMenu.tscn")
+const InvoiceMenuScene = preload("res://Scene/InvoiceMenu.tscn")
 
 const NewProductScene = preload("res://Scene/Product/NewProduct.tscn")
 const EditProductScene = preload("res://Scene/Product/EditProduct.tscn")
 const ManageProductScene = preload("res://Scene/Product/ManageProduct.tscn")
 const TransactionMenuScene = preload("res://Scene/Product/TransactionMenu.tscn")
+
+
 
 const user_file_path = "user://users.json"
 const rsc_file_path = "user://resources.json"

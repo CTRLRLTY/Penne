@@ -1,0 +1,214 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://resources/Background.stylebox" type="StyleBox" id=1]
+[ext_resource path="res://resources/save.stylebox" type="StyleBox" id=2]
+[ext_resource path="res://resources/RobotoBold.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Scene/Login/BackButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://asset/loginbg.png" type="Texture" id=5]
+[ext_resource path="res://resources/PaymentOptionRadioGroup.tres" type="ButtonGroup" id=6]
+[ext_resource path="res://resources/Main.theme" type="Theme" id=8]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends TextureRect
+
+"
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.576471, 0.576471, 0.576471, 1 )
+
+[node name="PaymentMenu" type="TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 8 )
+texture = ExtResource( 5 )
+expand = true
+script = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" parent="." instance=ExtResource( 4 )]
+custom_styles/focus = SubResource( 1 )
+
+[node name="InvoiceContainer" type="PanelContainer" parent="."]
+anchor_left = 0.3125
+anchor_top = -0.00138889
+anchor_right = 0.6875
+anchor_bottom = 1.00139
+custom_styles/panel = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": true
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="InvoiceContainer"]
+margin_right = 240.0
+margin_bottom = 361.0
+custom_constants/margin_right = 0
+custom_constants/margin_top = 21
+custom_constants/margin_left = 0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InvoiceContainer/MarginContainer"]
+margin_top = 21.0
+margin_right = 240.0
+margin_bottom = 361.0
+custom_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="InvoiceContainer/MarginContainer/VBoxContainer"]
+margin_right = 240.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 0, 41 )
+size_flags_horizontal = 3
+size_flags_vertical = 0
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 3 )
+text = "PAY INVOICE"
+align = 1
+valign = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="InvoiceContainer/MarginContainer/VBoxContainer"]
+margin_top = 51.0
+margin_right = 240.0
+margin_bottom = 273.0
+custom_constants/margin_right = 8
+custom_constants/margin_top = 0
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer"]
+margin_left = 8.0
+margin_right = 232.0
+margin_bottom = 222.0
+custom_constants/separation = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 224.0
+margin_bottom = 48.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_right = 224.0
+margin_bottom = 19.0
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 19.0
+margin_right = 224.0
+margin_bottom = 48.0
+
+[node name="Timer2" type="Timer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/LineEdit"]
+wait_time = 0.65
+
+[node name="PopupMenu2" type="PopupMenu" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/LineEdit"]
+items = [ "Cut", null, 0, false, false, 0, 268435544, null, "", false, "Copy", null, 0, false, false, 1, 268435523, null, "", false, "Paste", null, 0, false, false, 2, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Select All", null, 0, false, false, 4, 268435521, null, "", false, "Clear", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Undo", null, 0, false, false, 5, 268435546, null, "", false, "Redo", null, 0, false, false, 6, 301989978, null, "", false ]
+
+[node name="Timer3" type="Timer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/LineEdit"]
+wait_time = 0.65
+
+[node name="PopupMenu3" type="PopupMenu" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/LineEdit"]
+items = [ "Cut", null, 0, false, false, 0, 268435544, null, "", false, "Copy", null, 0, false, false, 1, 268435523, null, "", false, "Paste", null, 0, false, false, 2, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Select All", null, 0, false, false, 4, 268435521, null, "", false, "Clear", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Undo", null, 0, false, false, 5, 268435546, null, "", false, "Redo", null, 0, false, false, 6, 301989978, null, "", false ]
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 58.0
+margin_right = 224.0
+margin_bottom = 106.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
+margin_right = 224.0
+margin_bottom = 19.0
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
+margin_top = 19.0
+margin_right = 224.0
+margin_bottom = 48.0
+
+[node name="Timer2" type="Timer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2/LineEdit"]
+wait_time = 0.65
+
+[node name="PopupMenu2" type="PopupMenu" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2/LineEdit"]
+items = [ "Cut", null, 0, false, false, 0, 268435544, null, "", false, "Copy", null, 0, false, false, 1, 268435523, null, "", false, "Paste", null, 0, false, false, 2, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Select All", null, 0, false, false, 4, 268435521, null, "", false, "Clear", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Undo", null, 0, false, false, 5, 268435546, null, "", false, "Redo", null, 0, false, false, 6, 301989978, null, "", false ]
+
+[node name="Timer3" type="Timer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2/LineEdit"]
+wait_time = 0.65
+
+[node name="PopupMenu3" type="PopupMenu" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2/LineEdit"]
+items = [ "Cut", null, 0, false, false, 0, 268435544, null, "", false, "Copy", null, 0, false, false, 1, 268435523, null, "", false, "Paste", null, 0, false, false, 2, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Select All", null, 0, false, false, 4, 268435521, null, "", false, "Clear", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Undo", null, 0, false, false, 5, 268435546, null, "", false, "Redo", null, 0, false, false, 6, 301989978, null, "", false ]
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 116.0
+margin_right = 224.0
+margin_bottom = 164.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+margin_right = 224.0
+margin_bottom = 19.0
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+margin_top = 19.0
+margin_right = 224.0
+margin_bottom = 48.0
+
+[node name="Timer2" type="Timer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer3/LineEdit"]
+wait_time = 0.65
+
+[node name="PopupMenu2" type="PopupMenu" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer3/LineEdit"]
+items = [ "Cut", null, 0, false, false, 0, 268435544, null, "", false, "Copy", null, 0, false, false, 1, 268435523, null, "", false, "Paste", null, 0, false, false, 2, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Select All", null, 0, false, false, 4, 268435521, null, "", false, "Clear", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Undo", null, 0, false, false, 5, 268435546, null, "", false, "Redo", null, 0, false, false, 6, 301989978, null, "", false ]
+
+[node name="Timer3" type="Timer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer3/LineEdit"]
+wait_time = 0.65
+
+[node name="PopupMenu3" type="PopupMenu" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer3/LineEdit"]
+items = [ "Cut", null, 0, false, false, 0, 268435544, null, "", false, "Copy", null, 0, false, false, 1, 268435523, null, "", false, "Paste", null, 0, false, false, 2, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Select All", null, 0, false, false, 4, 268435521, null, "", false, "Clear", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Undo", null, 0, false, false, 5, 268435546, null, "", false, "Redo", null, 0, false, false, 6, 301989978, null, "", false ]
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 174.0
+margin_right = 224.0
+margin_bottom = 222.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer4"]
+margin_right = 224.0
+margin_bottom = 19.0
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer4"]
+margin_top = 19.0
+margin_right = 224.0
+margin_bottom = 48.0
+
+[node name="Timer2" type="Timer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer4/LineEdit"]
+wait_time = 0.65
+
+[node name="PopupMenu2" type="PopupMenu" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer4/LineEdit"]
+items = [ "Cut", null, 0, false, false, 0, 268435544, null, "", false, "Copy", null, 0, false, false, 1, 268435523, null, "", false, "Paste", null, 0, false, false, 2, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Select All", null, 0, false, false, 4, 268435521, null, "", false, "Clear", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Undo", null, 0, false, false, 5, 268435546, null, "", false, "Redo", null, 0, false, false, 6, 301989978, null, "", false ]
+
+[node name="Timer3" type="Timer" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer4/LineEdit"]
+wait_time = 0.65
+
+[node name="PopupMenu3" type="PopupMenu" parent="InvoiceContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer4/LineEdit"]
+items = [ "Cut", null, 0, false, false, 0, 268435544, null, "", false, "Copy", null, 0, false, false, 1, 268435523, null, "", false, "Paste", null, 0, false, false, 2, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Select All", null, 0, false, false, 4, 268435521, null, "", false, "Clear", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Undo", null, 0, false, false, 5, 268435546, null, "", false, "Redo", null, 0, false, false, 6, 301989978, null, "", false ]
+
+[node name="ProceedButton" type="Button" parent="InvoiceContainer/MarginContainer/VBoxContainer"]
+margin_left = 33.0
+margin_top = 295.0
+margin_right = 207.0
+margin_bottom = 328.0
+rect_min_size = Vector2( 174, 33 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_styles/hover = ExtResource( 2 )
+custom_styles/pressed = ExtResource( 2 )
+custom_styles/focus = ExtResource( 2 )
+custom_styles/normal = ExtResource( 2 )
+group = ExtResource( 6 )
+text = "Proceed"

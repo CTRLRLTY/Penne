@@ -8,14 +8,14 @@
 [ext_resource path="res://Scene/Product/ProductProperty.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scene/Product/NewProduct.gd" type="Script" id=10]
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 0.462745 )
 corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 
-[sub_resource type="StyleBoxEmpty" id=9]
+[sub_resource type="StyleBoxEmpty" id=2]
 
 [node name="NewProduct" type="TextureRect"]
 anchor_right = 1.0
@@ -90,6 +90,7 @@ custom_constants/separation = 10
 
 [node name="NameProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Left" instance=ExtResource( 9 )]
 prop_name = "Nama"
+prop_type = 0
 
 [node name="AmountProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Left" instance=ExtResource( 9 )]
 margin_top = 183.0
@@ -111,7 +112,7 @@ margin_bottom = 150.0
 rect_min_size = Vector2( 150, 150 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 8 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer"]
 margin_right = 152.0
@@ -164,7 +165,7 @@ size_flags_horizontal = 6
 size_flags_vertical = 10
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 8 )
-custom_styles/focus = SubResource( 9 )
+custom_styles/focus = SubResource( 2 )
 custom_styles/disabled = ExtResource( 8 )
 custom_styles/normal = ExtResource( 8 )
 text = "Save"
@@ -186,6 +187,7 @@ margin_top = 183.0
 margin_bottom = 236.0
 size_flags_vertical = 10
 prop_name = "Harga"
+
 [connection signal="pressed" from="VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/EditImageButton" to="." method="_on_EditImageButton_pressed"]
 [connection signal="gui_input" from="VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/ImageRect" to="." method="_on_ImageRect_gui_input"]

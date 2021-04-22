@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/Circle.svg-a2227bd23d70c362d1889db97a356bc0.image"
+
+[deps]
+
+source_file="res://asset/Circle.svg"
+dest_files=[ "res://.import/Circle.svg-a2227bd23d70c362d1889db97a356bc0.image" ]
+
+[params]
+
