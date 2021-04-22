@@ -482,6 +482,7 @@ text = "Register"
 [node name="BackButton" parent="." instance=ExtResource( 7 )]
 
 [node name="Tween" type="Tween" parent="."]
+
 [connection signal="text_changed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/EmailInput" to="LoginContainer" method="_on_EmailInput_text_changed"]
 [connection signal="text_changed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/PasswordInput" to="LoginContainer" method="_on_PasswordInput_text_changed"]
 [connection signal="pressed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LoginButton" to="LoginContainer" method="_on_LoginButton_pressed"]

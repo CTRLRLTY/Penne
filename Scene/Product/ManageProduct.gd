@@ -3,17 +3,20 @@ extends TextureRect
 const ProductItemScene : PackedScene = preload("res://Scene/Product/ProductItem.tscn")
 const AddProductItemScene : PackedScene = preload("res://Scene/Product/AddProductItem.tscn")
 
+signal page_transition (current_page, next_page)
+
 export(NodePath) var ProductGridPath : NodePath
 export(NodePath) var PageLabelPath : NodePath
 
 var current_page = 0
 var pages := []
+onready var resource_db = Globals.resource_db
 
 onready var product_grid : GridContainer = get_node(ProductGridPath)
 onready var page_label : Label = get_node(PageLabelPath)
 
 func _ready():
-	if Globals.resource_db:
+	if resource_db:
 		_index_pages()
 		
 		#This line of code generates weird ass error when using 
@@ -33,7 +36,7 @@ func _index_pages():
 	#GOTTA GO FAST YEEEEEEEEEEEEEEEEEEEEEEEEEET
 	var acc := []
 	#This shit will be slow if we have a million products, but who cares.
-	for product in Globals.resource_db:
+	for product in resource_db:
 		acc.append(product)
 		if acc.size() > 5:
 			pages.append(acc.duplicate())
@@ -45,6 +48,8 @@ func _show_page(products : Array) -> void:
 	for product_node in product_grid.get_children():
 		product_node.queue_free()
 	
+	#I put this code for a reason, but now I forgot why.
+	#Just know that this shit fix some bugs?
 	yield(get_tree(), "node_removed")
 	
 	for product in products:
@@ -66,6 +71,7 @@ func bootload(page : int):
 
 func _on_PrevPage_pressed():
 	var prev_page = current_page - 1
+	emit_signal("page_transition", current_page, prev_page)
 	if not prev_page < 0 :
 		current_page = prev_page
 		_set_pagination(current_page, pages.size())
@@ -73,6 +79,7 @@ func _on_PrevPage_pressed():
 
 func _on_NextPage_pressed():
 	var next_page = current_page + 1
+	emit_signal("page_transition", current_page, next_page)
 	if pages.size() > next_page:
 		current_page = next_page
 		_set_pagination(current_page, pages.size())

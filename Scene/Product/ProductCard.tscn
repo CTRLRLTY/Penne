@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://asset/ArrowLeft.svg" type="Texture" id=1]
 [ext_resource path="res://resources/login.theme" type="Theme" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://asset/ArrowRight.svg" type="Texture" id=4]
+[ext_resource path="res://resources/RobotoThin.tres" type="DynamicFont" id=5]
+[ext_resource path="res://resources/RobotoBold.tres" type="DynamicFont" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 0.462745 )
@@ -13,7 +15,41 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 10
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="GDScript" id=2]
+script/source = "extends PanelContainer
+
+signal amount_changed (amount)
+
+onready var product_name = $MarginContainer/HBoxContainer/VBoxContainer/Name
+onready var product_price = $MarginContainer/HBoxContainer/VBoxContainer/Price
+onready var product_thumbnail = $MarginContainer/HBoxContainer/Image
+onready var amount_label = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/amountLabel
+
+var properties : Dictionary
+var amount : int = 0 setget set_amount
+
+func set_amount(amt : int) -> void:
+	amount = amt
+	if amount < 0:
+		amount = 0
+	amount_label.text = str(amount)
+	emit_signal(\"amount_changed\", properties.id, amount)
+
+func change_attr(attr : Dictionary, amount : int):
+	properties = attr
+	product_thumbnail.texture = load(attr.imagePath)
+	product_name.text = attr.name
+	product_price.text = \"Rp. %s\" % attr.price
+	self.amount = amount
+
+func _on_LeftButton_pressed() -> void:
+	self.amount -= 1
+
+func _on_RightButton_pressed() -> void:
+	self.amount += 1
+"
+
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 1, 1, 1, 1 )
 
 [node name="ProductCard" type="PanelContainer"]
@@ -25,6 +61,7 @@ rect_min_size = Vector2( 223, 84 )
 mouse_default_cursor_shape = 2
 theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 1 )
+script = SubResource( 2 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true,
@@ -66,22 +103,24 @@ margin_right = 203.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 1
+custom_constants/separation = 5
 
 [node name="Name" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_right = 100.0
 margin_bottom = 19.0
 size_flags_vertical = 0
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Name"
 align = 1
 
 [node name="Price" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 20.0
+margin_top = 24.0
 margin_right = 100.0
 margin_bottom = 39.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Rp. 0000"
 align = 1
@@ -93,21 +132,22 @@ margin_bottom = 64.0
 size_flags_vertical = 10
 custom_constants/separation = 10
 
-[node name="TextureButton" type="TextureButton" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="LeftButton" type="TextureButton" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_right = 16.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 16, 0 )
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 1 )
 expand = true
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="amountLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 26.0
 margin_right = 74.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 48, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "0"
 align = 1
@@ -115,10 +155,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureButton2" type="TextureButton" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="RightButton" type="TextureButton" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 84.0
 margin_right = 100.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 16, 0 )
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 4 )
 expand = true
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/LeftButton" to="." method="_on_LeftButton_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/RightButton" to="." method="_on_RightButton_pressed"]

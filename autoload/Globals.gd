@@ -6,6 +6,7 @@ const MainMenuScene = preload("res://Scene/MainMenu.tscn")
 const NewProductScene = preload("res://Scene/Product/NewProduct.tscn")
 const EditProductScene = preload("res://Scene/Product/EditProduct.tscn")
 const ManageProductScene = preload("res://Scene/Product/ManageProduct.tscn")
+const TransactionMenuScene = preload("res://Scene/Product/TransactionMenu.tscn")
 
 const user_file_path = "user://users.json"
 const rsc_file_path = "user://resources.json"

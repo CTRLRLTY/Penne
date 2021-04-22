@@ -9,8 +9,8 @@ script/source = "extends TextureRect
 
 
 
-func _on_ProsesButton_pressed():
-	pass
+func _on_TransactionButton_pressed() -> void:
+	SceneChanger.change_scene(Globals.TransactionMenuScene, \"fade\")
 
 func _on_ManageButton_pressed():
 	SceneChanger.change_scene(Globals.ManageProductScene, \"fade\")
@@ -20,6 +20,9 @@ func _on_LaporanButton_pressed():
 
 func _on_RecapButton_pressed():
 	pass # Replace with function body.
+
+
+
 "
 
 [node name="MainMenu" type="TextureRect"]
@@ -66,7 +69,7 @@ margin_right = 168.0
 margin_bottom = 325.0
 custom_constants/separation = 30
 
-[node name="ProsesButton" type="Button" parent="HBoxContainer/Main/ButtonContainer"]
+[node name="TransactionButton" type="Button" parent="HBoxContainer/Main/ButtonContainer"]
 margin_right = 142.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 142, 50 )
@@ -104,7 +107,7 @@ margin_bottom = 360.0
 rect_min_size = Vector2( 213, 0 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 2 )
-[connection signal="pressed" from="HBoxContainer/Main/ButtonContainer/ProsesButton" to="." method="_on_ProsesButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/Main/ButtonContainer/TransactionButton" to="." method="_on_TransactionButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/Main/ButtonContainer/ManageButton" to="." method="_on_ManageButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/Main/ButtonContainer/LaporanButton" to="." method="_on_LaporanButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/Main/ButtonContainer/RecapButton" to="." method="_on_RecapButton_pressed"]

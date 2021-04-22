@@ -1,10 +1,157 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Scene/Product/ManageProduct.tscn" type="PackedScene" id=1]
+[ext_resource path="res://resources/login.theme" type="Theme" id=1]
+[ext_resource path="res://Scene/Login/BackButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scene/Product/TransactionMenu.gd" type="Script" id=3]
+[ext_resource path="res://asset/loginbg.png" type="Texture" id=4]
+[ext_resource path="res://resources/payButton.stylebox" type="StyleBox" id=5]
 
-[node name="TransactionMenu" instance=ExtResource( 1 )]
-ProductGridPath = NodePath("../TransactionPage/VBoxContainer/ProductContainer/GridContainer")
-PageLabelPath = NodePath("../TransactionPage/VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer/PageLabel")
+[node name="TransactionMenu" type="TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+texture = ExtResource( 4 )
+expand = true
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+ProductGridPath = NodePath("../TransactionMenu/VBoxContainer/ProductContainer/GridContainer")
+PageLabelPath = NodePath("../TransactionMenu/VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer/PageLabel")
 
-[node name="ProductItem" parent="VBoxContainer/ProductContainer/GridContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PaginationContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_right = 640.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+custom_constants/margin_top = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/PaginationContainer"]
+margin_top = 10.0
+margin_right = 640.0
+margin_bottom = 29.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PaginationContainer/CenterContainer"]
+margin_left = 257.0
+margin_right = 382.0
+margin_bottom = 19.0
+custom_constants/separation = 20
+
+[node name="PrevPage" type="LinkButton" parent="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer"]
+margin_right = 8.0
+margin_bottom = 19.0
+text = "<"
+underline = 2
+
+[node name="PageLabel" type="Label" parent="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer"]
+margin_left = 28.0
+margin_right = 97.0
+margin_bottom = 19.0
+text = "PAGE 1/7"
+
+[node name="NextPage" type="LinkButton" parent="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer"]
+margin_left = 117.0
+margin_right = 125.0
+margin_bottom = 19.0
+text = ">"
+underline = 2
+
+[node name="ProductContainer" type="CenterContainer" parent="VBoxContainer"]
+margin_top = 29.0
+margin_right = 640.0
+margin_bottom = 360.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ProductContainer"]
+margin_left = 61.0
+margin_top = 23.0
+margin_right = 578.0
+margin_bottom = 307.0
+rect_min_size = Vector2( 517, 284 )
+custom_constants/vseparation = 16
+custom_constants/hseparation = 71
+columns = 2
+
+[node name="ProductCard" parent="VBoxContainer/ProductContainer/GridContainer" instance_placeholder="res://Scene/Product/ProductCard.tscn"]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 223.0
 margin_bottom = 84.0
+
+[node name="ProductCard2" parent="VBoxContainer/ProductContainer/GridContainer" instance_placeholder="res://Scene/Product/ProductCard.tscn"]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 294.0
+margin_right = 517.0
+margin_bottom = 84.0
+
+[node name="ProductCard3" parent="VBoxContainer/ProductContainer/GridContainer" instance_placeholder="res://Scene/Product/ProductCard.tscn"]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 100.0
+margin_right = 223.0
+margin_bottom = 184.0
+
+[node name="ProductCard4" parent="VBoxContainer/ProductContainer/GridContainer" instance_placeholder="res://Scene/Product/ProductCard.tscn"]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 294.0
+margin_top = 100.0
+margin_right = 517.0
+margin_bottom = 184.0
+
+[node name="ProductCard5" parent="VBoxContainer/ProductContainer/GridContainer" instance_placeholder="res://Scene/Product/ProductCard.tscn"]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 200.0
+margin_right = 223.0
+margin_bottom = 284.0
+
+[node name="ProductCard6" parent="VBoxContainer/ProductContainer/GridContainer" instance_placeholder="res://Scene/Product/ProductCard.tscn"]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 294.0
+margin_top = 200.0
+margin_right = 517.0
+margin_bottom = 284.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_bottom = 40.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" parent="HBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="PayButton" type="Button" parent="HBoxContainer"]
+margin_left = 580.0
+margin_right = 640.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 60, 0 )
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+custom_styles/hover = ExtResource( 5 )
+custom_styles/pressed = ExtResource( 5 )
+custom_styles/focus = ExtResource( 5 )
+custom_styles/normal = ExtResource( 5 )
+text = "Pay"
+
+[connection signal="pressed" from="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer/PrevPage" to="." method="_on_PrevPage_pressed"]
+[connection signal="pressed" from="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer/NextPage" to="." method="_on_NextPage_pressed"]
+[connection signal="pressed" from="HBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/PayButton" to="." method="_on_PayButton_pressed"]
