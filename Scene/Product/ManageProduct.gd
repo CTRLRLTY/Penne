@@ -25,11 +25,18 @@ func _ready():
 		yield(get_tree(), "idle_frame")
 			
 		_set_pagination(current_page, pages.size())
+		yield(_clear_grid(), "completed")
 		_show_page(pages[current_page])
 	else:
 		_set_pagination(current_page, 1)
+		yield(_clear_grid(), "completed")
 		_show_page([])
-
+		
+func _clear_grid():
+	for product_node in product_grid.get_children():
+		product_node.queue_free()
+	
+	yield(get_tree(), "idle_frame")
 	
 func _index_pages():
 	#This code makes me think of life and death every day
@@ -45,11 +52,6 @@ func _index_pages():
 	pages.append(acc)
 
 func _show_page(products : Array) -> void:
-	for product_node in product_grid.get_children():
-		product_node.queue_free()
-	
-	yield(get_tree(), "idle_frame")
-	
 	for product in products:
 		var product_item : Control = ProductItemScene.instance()
 		product_item.connect("gui_input", self, "_on_Product_gui_input")
@@ -73,6 +75,7 @@ func _on_PrevPage_pressed():
 		emit_signal("page_transition", current_page, prev_page)
 		current_page = prev_page
 		_set_pagination(current_page, pages.size())
+		yield(_clear_grid(), "completed")
 		_show_page(pages[current_page])
 
 func _on_NextPage_pressed():
@@ -81,6 +84,7 @@ func _on_NextPage_pressed():
 		emit_signal("page_transition", current_page, next_page)
 		current_page = next_page
 		_set_pagination(current_page, pages.size())
+		yield(_clear_grid(), "completed")
 		_show_page(pages[current_page])
 		
 func _on_Product_gui_input(event):
@@ -91,3 +95,6 @@ func _on_Product_gui_input(event):
 
 func _on_BackButton_pressed() -> void:
 	SceneChanger.change_scene(Globals.MainMenuScene, "fade")
+
+
+

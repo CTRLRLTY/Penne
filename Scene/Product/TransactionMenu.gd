@@ -5,27 +5,16 @@ const ProductCardScene = preload("res://Scene/Product/ProductCard.tscn")
 var page_cache = {}
 var amount_cache = [0,0,0,0,0,0]
 var price_cache = [0,0,0,0,0,0]
+
 func _ready():
-	
-	
 	if not pages.empty():
 		if pages[-1].empty():
 			pages.pop_back()
 			
 	connect("page_transition",self, "_on_page_transition")
 	
-
-
 func _show_page(products : Array) -> void:	
-	#this code is literally a copy paste but paste from the parent but WHO CARES
-	#LET IT BE WET BABYYYYYYYY
-	for product_node in product_grid.get_children():
-		product_node.queue_free()
-	
-	yield(get_tree(), "idle_frame")
-	
 	var ctr = 0
-	
 	for product in products:
 		var product_card : Control = ProductCardScene.instance()
 		
@@ -48,7 +37,6 @@ func _on_page_transition(current_page, next_page) -> void:
 		"prices": price_cache.duplicate()
 		}
 	
-	print(next_page)
 	if page_cache.has(next_page):
 		amount_cache = page_cache[next_page].amounts
 		price_cache = page_cache[next_page].prices
@@ -56,4 +44,4 @@ func _on_page_transition(current_page, next_page) -> void:
 		amount_cache = [0,0,0,0,0,0]
 		price_cache = [0,0,0,0,0,0]
 		
-	print(page_cache)
+	print_debug("page_cache: ", page_cache)

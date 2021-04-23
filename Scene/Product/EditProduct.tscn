@@ -1,10 +1,29 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scene/Product/NewProduct.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scene/Product/EditProduct.gd" type="Script" id=9]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends \"res://Scene/Product/NewProduct.gd\"
+
+var attribute
+
+func _ready():
+	if attribute:
+		image_rect.texture = load(attribute.imagePath)	
+		
+		name_prop.prop_value = attribute.name
+		amount_prop.prop_value = attribute.amount
+		modal_prop.prop_value = attribute.modal
+		price_prop.prop_value = attribute.price
+
+func bootload(attribute):
+	print_debug(\"Starting bootloader...\")
+	self.attribute = attribute
+	
+"
 
 [node name="EditProduct" instance=ExtResource( 1 )]
-script = ExtResource( 9 )
+script = SubResource( 1 )
 ImageRectPath = NodePath("VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/ImageRect")
 EditImageButtonPath = NodePath("VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/EditImageButton")
 NamePropPath = NodePath("VBoxContainer/MarginContainer/HBoxContainer/Left/NameProperty")
