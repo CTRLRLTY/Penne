@@ -6,12 +6,15 @@ var page_cache = {}
 var amount_cache = [0,0,0,0,0,0]
 var price_cache = [0,0,0,0,0,0]
 func _ready():
+	
+	
 	if not pages.empty():
 		if pages[-1].empty():
 			pages.pop_back()
 			
 	connect("page_transition",self, "_on_page_transition")
 	
+
 
 func _show_page(products : Array) -> void:	
 	#this code is literally a copy paste but paste from the parent but WHO CARES
@@ -45,6 +48,7 @@ func _on_page_transition(current_page, next_page) -> void:
 		"prices": price_cache.duplicate()
 		}
 	
+	print(next_page)
 	if page_cache.has(next_page):
 		amount_cache = page_cache[next_page].amounts
 		price_cache = page_cache[next_page].prices

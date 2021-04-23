@@ -36,8 +36,8 @@ func _index_pages():
 	#GOTTA GO FAST YEEEEEEEEEEEEEEEEEEEEEEEEEET
 	var acc := []
 	#This shit will be slow if we have a million products, but who cares.
-	for product in resource_db:
-		acc.append(product)
+	for product in resource_db.keys():
+		acc.append(resource_db[product])
 		if acc.size() > 5:
 			pages.append(acc.duplicate())
 			acc.clear()
@@ -48,9 +48,7 @@ func _show_page(products : Array) -> void:
 	for product_node in product_grid.get_children():
 		product_node.queue_free()
 	
-	#I put this code for a reason, but now I forgot why.
-	#Just know that this shit fix some bugs?
-	yield(get_tree(), "node_removed")
+	yield(get_tree(), "idle_frame")
 	
 	for product in products:
 		var product_item : Control = ProductItemScene.instance()
@@ -71,16 +69,16 @@ func bootload(page : int):
 
 func _on_PrevPage_pressed():
 	var prev_page = current_page - 1
-	emit_signal("page_transition", current_page, prev_page)
 	if not prev_page < 0 :
+		emit_signal("page_transition", current_page, prev_page)
 		current_page = prev_page
 		_set_pagination(current_page, pages.size())
 		_show_page(pages[current_page])
 
 func _on_NextPage_pressed():
 	var next_page = current_page + 1
-	emit_signal("page_transition", current_page, next_page)
 	if pages.size() > next_page:
+		emit_signal("page_transition", current_page, next_page)
 		current_page = next_page
 		_set_pagination(current_page, pages.size())
 		_show_page(pages[current_page])

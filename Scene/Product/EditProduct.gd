@@ -11,11 +11,6 @@ func _ready():
 		modal_prop.prop_value = attribute.modal
 		price_prop.prop_value = attribute.price
 
-func _set_product(product : Dictionary):
-	product.id = attribute.id
-	Globals.resource_db[attribute.id] = product
-	product.imagePath = attribute.imagePath
-
 func bootload(attribute):
 	print_debug("Starting bootloader...")
 	self.attribute = attribute

@@ -11,7 +11,7 @@ enum PROP_TYPE {STRING = TYPE_STRING, INT = TYPE_INT}
 export(String) var prop_name := "Name" setget set_prop_name
 export(PROP_TYPE) var prop_type = TYPE_STRING
 
-var prop_value = "" setget set_prop_value
+var prop_value = "Godot" setget set_prop_value
 
 onready var title : Label = get_node(TitlePath)
 onready var input : LineEdit = get_node(InputPath)

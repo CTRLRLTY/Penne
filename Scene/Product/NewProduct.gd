@@ -28,11 +28,6 @@ func _open_gallery():
 	else:
 		push_error("image plugin not found")
 
-func _set_product(product : Dictionary):
-	product["id"] = Globals.resource_db.size()
-	Globals.resource_db.append(product)
-	product["imagePath"] = Globals.image_dir_path + str(Globals.resource_db.size() - 1) + ".res"
-	
 func _on_image_receive(images: Dictionary):
 	for image in images.values():
 		var current_image = Image.new()
@@ -61,23 +56,19 @@ func _on_SaveButton_pressed():
 		"imagePath": "res://asset/godot.png"
 	}
 
-	var bitmask = ResourceSaver.FLAG_COMPRESS
-	if Globals.resource_db:
-		_set_product(product)
-	else:
-		product["id"] = 0
-		Globals.resource_db = [product]
-		product["imagePath"] = Globals.image_dir_path + "0.res"
+	if not Globals.resource_db:
+		Globals.resource_db = {}
 		
-	if image_rect.texture:
-		ResourceSaver.save(product["imagePath"], image_rect.texture, bitmask)
-	else:
-		product["imagePath"] = "res://asset/godot.png"
-	
+	Globals.resource_db[product["name"]] = product
+		
+	if image_rect.texture: 
+		product["imagePath"] = Globals.image_dir_path + product["name"] + ".res"
+		ResourceSaver.save(product["imagePath"], image_rect.texture, ResourceSaver.FLAG_COMPRESS)
+
 	file.open(Globals.rsc_file_path, File.WRITE)
 	file.store_string(to_json(Globals.resource_db))
 	file.close()
-	print_debug("Product Saved: ", Globals.resource_db[product["id"]])
+	print_debug("Product Saved: ", product["name"])
 	SceneChanger.change_back("fade")
 	
 func _on_EditImageButton_pressed():

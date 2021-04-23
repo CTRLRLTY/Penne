@@ -33,7 +33,7 @@ func set_amount(amt : int) -> void:
 	if amount < 0:
 		amount = 0
 	amount_label.text = str(amount)
-	emit_signal(\"amount_changed\", properties.id, amount)
+	emit_signal(\"amount_changed\", properties.name, amount)
 
 func change_attr(attr : Dictionary, amount : int):
 	properties = attr

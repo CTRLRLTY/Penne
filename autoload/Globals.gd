@@ -11,7 +11,6 @@ const ManageProductScene = preload("res://Scene/Product/ManageProduct.tscn")
 const TransactionMenuScene = preload("res://Scene/Product/TransactionMenu.tscn")
 
 
-
 const user_file_path = "user://users.json"
 const rsc_file_path = "user://resources.json"
 const image_dir_path = "user://images/"
