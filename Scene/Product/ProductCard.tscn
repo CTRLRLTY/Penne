@@ -18,7 +18,7 @@ corner_detail = 10
 [sub_resource type="GDScript" id=2]
 script/source = "extends PanelContainer
 
-signal amount_changed (amount)
+signal amount_changed (product_name, amount)
 
 onready var product_name = $MarginContainer/HBoxContainer/VBoxContainer/Name
 onready var product_price = $MarginContainer/HBoxContainer/VBoxContainer/Price
