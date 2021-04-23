@@ -151,6 +151,7 @@ custom_styles/focus = ExtResource( 5 )
 custom_styles/normal = ExtResource( 5 )
 text = "Pay"
 
+[connection signal="page_transition" from="." to="." method="_on_TransactionMenu_page_transition" binds= [ "a" ]]
 [connection signal="pressed" from="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer/PrevPage" to="." method="_on_PrevPage_pressed"]
 [connection signal="pressed" from="VBoxContainer/PaginationContainer/CenterContainer/HBoxContainer/NextPage" to="." method="_on_NextPage_pressed"]
 [connection signal="pressed" from="HBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]

@@ -50,7 +50,7 @@ func _on_SaveButton_pressed():
 	var file = File.new()
 	var product = {
 		"name": name_prop.prop_value,
-		"amount": amount_prop.prop_value,
+		"stock": amount_prop.prop_value,
 		"price": price_prop.prop_value,
 		"modal": modal_prop.prop_value,
 		"imagePath": "res://asset/godot.png"

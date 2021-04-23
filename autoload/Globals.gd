@@ -33,7 +33,7 @@ func _ready():
 		image_plugin = Engine.get_singleton("GodotGetImage")
 		
 	print_debug("user_db: ", user_db)
-	print_debug("resource_db: ", resource_db.size())
+	print_debug("resource_db: ", resource_db)
 	OS.request_permissions()
 		
 

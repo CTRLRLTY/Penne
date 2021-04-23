@@ -16,4 +16,4 @@ func change_attr(attr : Dictionary):
 	product_thumbnail.texture = load(attr.imagePath)
 	
 	product_name.text = attr.name
-	product_stock.text = attr.amount
+	product_stock.text = attr.stock

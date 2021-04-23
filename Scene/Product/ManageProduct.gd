@@ -15,6 +15,9 @@ onready var resource_db = Globals.resource_db
 onready var product_grid : GridContainer = get_node(ProductGridPath)
 onready var page_label : Label = get_node(PageLabelPath)
 
+func _bootload(carry):
+	current_page = carry
+
 func _ready():
 	if resource_db:
 		_index_pages()
@@ -31,6 +34,7 @@ func _ready():
 		_set_pagination(current_page, 1)
 		yield(_clear_grid(), "completed")
 		_show_page([])
+	
 		
 func _clear_grid():
 	for product_node in product_grid.get_children():
@@ -66,8 +70,8 @@ func _show_page(products : Array) -> void:
 func _set_pagination(current, maximum):
 	page_label.text = "PAGE %s/%s" % [str(current+1), str(maximum)]
 	
-func bootload(page : int):
-	current_page = page
+func bootload(carry):
+	_bootload(carry)
 
 func _on_PrevPage_pressed():
 	var prev_page = current_page - 1

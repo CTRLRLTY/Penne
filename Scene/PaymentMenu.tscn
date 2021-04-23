@@ -17,17 +17,39 @@ export(NodePath) var ProceedButtonPath : NodePath
 
 onready var proceed_button : Button = get_node(ProceedButtonPath)
 
+var prev_carry : Dictionary
+var transaction_data : Dictionary
+
+func bootload(carry : Dictionary) -> void:
+	prev_carry = carry
+	transaction_data = prev_carry[\"cache\"]
 
 func _on_ProceedButton_pressed() -> void:
 	var pressed_button = proceed_button.group.get_pressed_button()
-	var carry
+	var carry := {
+		\"price\": 0,
+		\"sold\": {}
+	}
+	
+	var payment : String
+	for trans in transaction_data.values():
+		for product in trans.products:
+			carry.sold[product.name] = trans.amounts[product.name]
+			carry.price += trans.amounts[product.name] * int(product.price)
+			
 	if pressed_button.shortcut:
 		match pressed_button.shortcut.shortcut.action:
 			\"pay_cash\": 
-				carry = \"cash\"
+				payment = \"cash\"
 			\"pay_card\":
-				carry = \"card\"
+				payment = \"card\"
+				
+		carry[\"payment\"] = payment
+		print(carry)
 		SceneChanger.change_scene(Globals.InvoiceMenuScene, \"fade\", carry)
+
+func _on_BackButton_pressed() -> void:
+	SceneChanger.change_scene(Globals.TransactionMenuScene, \"fade\", prev_carry)
 "
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -42,6 +64,7 @@ shortcut = SubResource( 4 )
 [node name="PaymentMenu" type="TextureRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 theme = ExtResource( 7 )
 texture = ExtResource( 5 )
 expand = true
@@ -168,6 +191,7 @@ margin_top = 277.0
 margin_right = 207.0
 margin_bottom = 310.0
 rect_min_size = Vector2( 174, 33 )
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 10
 custom_styles/hover = ExtResource( 2 )
@@ -177,11 +201,5 @@ custom_styles/normal = ExtResource( 2 )
 group = ExtResource( 6 )
 text = "Proceed"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="PaymentContainer/MarginContainer/VBoxContainer/ProceedButton" to="." method="_on_ProceedButton_pressed"]
