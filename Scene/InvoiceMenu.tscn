@@ -81,16 +81,17 @@ func _on_BackButton_pressed() -> void:
 func _on_ConfirmButton_pressed() -> void:
 	var file = File.new()
 	var date = OS.get_date()
-	var trans_data = {
-		date[\"month\"]: {
-			date[\"day\"]: payment_data
-		}
-	}
 	
 	if not Globals.trans_db:
-		Globals.trans_db = {}
+		Globals.trans_db = {
+			date[\"year\"]: {
+				date[\"month\"]: {
+					date[\"day\"]: {}
+			}
+		}
+	}
 		
-	Globals.trans_db[date[\"year\"]] = trans_data
+	Globals.trans_db[date[\"year\"]][date[\"month\"]][date[\"day\"]][OS.get_system_time_msecs()] = payment_data
 	
 	file.open(Globals.trans_file_path, File.WRITE)
 	file.store_string(to_json(Globals.trans_db))

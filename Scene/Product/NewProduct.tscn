@@ -136,14 +136,14 @@ text = "Gambar Produk"
 align = 1
 
 [node name="EditImageButton" parent="VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
-visible = false
 margin_left = 52.0
-margin_top = 35.0
+margin_top = 63.0
 margin_right = 80.0
-margin_bottom = 63.0
+margin_bottom = 91.0
 
 [node name="ImageRect" type="TextureRect" parent="VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 24.0
+visible = false
+margin_top = 79.0
 margin_right = 132.0
 margin_bottom = 130.0
 size_flags_horizontal = 7
