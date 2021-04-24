@@ -13,11 +13,15 @@ const TransactionMenuScene = preload("res://Scene/Product/TransactionMenu.tscn")
 
 const user_file_path = "user://users.json"
 const rsc_file_path = "user://resources.json"
+const trans_file_path = "user://transactions.json"
 const image_dir_path = "user://images/"
+
 
 var user_db 
 var resource_db
+var trans_db
 var image_plugin
+
 
 func _ready():
 	print_debug(OS.get_user_data_dir())
@@ -28,6 +32,7 @@ func _ready():
 	
 	user_db = _open_file(user_file_path)
 	resource_db = _open_file(rsc_file_path)
+	trans_db = _open_file(trans_file_path)
 	
 	if Engine.has_singleton("GodotGetImage"):
 		image_plugin = Engine.get_singleton("GodotGetImage")

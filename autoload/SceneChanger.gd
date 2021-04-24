@@ -22,14 +22,18 @@ func set_current_scene(scene : PackedScene):
 	
 func change_scene(new_scene: PackedScene, animation: String, args = null):
 	self.carry = args
+	
+	if args:
+		cache = null
+		
 	set_current_scene(new_scene)
 	animation_player.play(animation)
 	
-func change_back(animation: String, args = null):
+func change_back(animation: String, args = null, one_time := false):
 	if cache != null:
-		#THIS IS A DUMB WORKAROUND, BUT WHO CARES
 		args = cache
-		cache = null
+		if one_time:
+			cache = null
 	change_scene(previous_scene, animation, args)
 	
 func _transition():

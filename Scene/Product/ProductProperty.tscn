@@ -73,6 +73,7 @@ size_flags_vertical = 3
 custom_styles/read_only = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
 align = 1
+placeholder_text = "0"
 caret_blink = true
 caret_blink_speed = 0.5
 

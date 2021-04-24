@@ -48,6 +48,7 @@ func _on_PayButton_pressed() -> void:
 		"page": current_page,
 		"cache": page_cache
 	}
+	SceneChanger.cache = carry
 	SceneChanger.change_scene(Globals.PaymentMenuScene, "fade", carry)
 	
 func _on_Item_amount_changed(product: String, amount: int) -> void:

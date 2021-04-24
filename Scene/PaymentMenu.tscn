@@ -10,12 +10,10 @@
 [ext_resource path="res://asset/visaLogo.png" type="Texture" id=8]
 [ext_resource path="res://resources/pay_card.tres" type="ShortCut" id=9]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends TextureRect
 
-export(NodePath) var ProceedButtonPath : NodePath
-
-onready var proceed_button : Button = get_node(ProceedButtonPath)
+export(ButtonGroup) var RadioGroup : ButtonGroup
 
 var prev_carry : Dictionary
 var transaction_data : Dictionary
@@ -25,10 +23,11 @@ func bootload(carry : Dictionary) -> void:
 	transaction_data = prev_carry[\"cache\"]
 
 func _on_ProceedButton_pressed() -> void:
-	var pressed_button = proceed_button.group.get_pressed_button()
+	var toggled_radio = RadioGroup.get_pressed_button()
+
 	var carry := {
 		\"price\": 0,
-		\"sold\": {}
+		\"sold\": {},
 	}
 	
 	var payment : String
@@ -37,29 +36,30 @@ func _on_ProceedButton_pressed() -> void:
 			carry.sold[product.name] = trans.amounts[product.name]
 			carry.price += trans.amounts[product.name] * int(product.price)
 			
-	if pressed_button.shortcut:
-		match pressed_button.shortcut.shortcut.action:
+	if toggled_radio.shortcut:
+		match toggled_radio.shortcut.shortcut.action:
 			\"pay_cash\": 
 				payment = \"cash\"
 			\"pay_card\":
 				payment = \"card\"
 				
 		carry[\"payment\"] = payment
-		print(carry)
+		SceneChanger.cache = prev_carry
 		SceneChanger.change_scene(Globals.InvoiceMenuScene, \"fade\", carry)
 
 func _on_BackButton_pressed() -> void:
 	SceneChanger.change_scene(Globals.TransactionMenuScene, \"fade\", prev_carry)
 "
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.576471, 0.576471, 0.576471, 1 )
 
-[sub_resource type="InputEventAction" id=4]
+[sub_resource type="InputEventAction" id=3]
 action = "pay_cash"
+pressed = true
 
-[sub_resource type="ShortCut" id=3]
-shortcut = SubResource( 4 )
+[sub_resource type="ShortCut" id=4]
+shortcut = SubResource( 3 )
 
 [node name="PaymentMenu" type="TextureRect"]
 anchor_right = 1.0
@@ -68,12 +68,12 @@ mouse_filter = 2
 theme = ExtResource( 7 )
 texture = ExtResource( 5 )
 expand = true
-script = SubResource( 2 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-ProceedButtonPath = NodePath("PaymentContainer/MarginContainer/VBoxContainer/ProceedButton")
+RadioGroup = ExtResource( 6 )
 
 [node name="BackButton" parent="." instance=ExtResource( 4 )]
 
@@ -108,7 +108,7 @@ margin_bottom = 41.0
 rect_min_size = Vector2( 0, 41 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 3 )
 text = "PAYMENT METHODS"
 align = 1
@@ -137,7 +137,8 @@ custom_constants/separation = 10
 [node name="CashBox" type="CheckBox" parent="PaymentContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_right = 134.0
 margin_bottom = 27.0
-shortcut = SubResource( 3 )
+action_mode = 0
+shortcut = SubResource( 4 )
 group = ExtResource( 6 )
 text = "Cash"
 
@@ -146,6 +147,7 @@ margin_top = 37.0
 margin_right = 134.0
 margin_bottom = 64.0
 disabled = true
+action_mode = 0
 group = ExtResource( 6 )
 text = "OVO"
 
@@ -154,6 +156,7 @@ margin_top = 74.0
 margin_right = 134.0
 margin_bottom = 101.0
 disabled = true
+action_mode = 0
 group = ExtResource( 6 )
 text = "GOPAY"
 
@@ -161,6 +164,7 @@ text = "GOPAY"
 margin_top = 111.0
 margin_right = 134.0
 margin_bottom = 138.0
+action_mode = 0
 shortcut = ExtResource( 9 )
 group = ExtResource( 6 )
 text = "DEBIT CARD"
@@ -169,6 +173,7 @@ text = "DEBIT CARD"
 margin_top = 148.0
 margin_right = 134.0
 margin_bottom = 175.0
+action_mode = 0
 shortcut = ExtResource( 9 )
 group = ExtResource( 6 )
 text = "CREDIT CARD"
@@ -198,7 +203,6 @@ custom_styles/hover = ExtResource( 2 )
 custom_styles/pressed = ExtResource( 2 )
 custom_styles/focus = ExtResource( 2 )
 custom_styles/normal = ExtResource( 2 )
-group = ExtResource( 6 )
 text = "Proceed"
 
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]

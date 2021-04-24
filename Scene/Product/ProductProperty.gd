@@ -40,7 +40,7 @@ func _on_LineEdit_text_changed(new_text):
 				new_text = "0"
 				input.text = ""
 			else:
-				input.text = str(prop_value)
+				input.text = prop_value
 				new_text = prop_value
 	prop_value = new_text
 
