@@ -45,7 +45,6 @@ func _on_ModalButton_pressed() -> void:
 
 func _on_Item_pressed() -> void:
 	var item_pressed : Button = ItemBtnGroup.get_pressed_button()
-	var date = OS.get_datetime()
 	popup_panel.hide()
 	self.text = item_pressed.text
 	
@@ -54,11 +53,11 @@ func _on_Item_pressed() -> void:
 			
 	match item_pressed.shortcut.shortcut.action:
 		\"report_day\":
-			print(Globals.report_db.get(str(date.day), null))
+			print(Globals.report_db[\"day\"])
 		\"report_week\":
-			pass
+			print(Globals.report_db[\"week\"])
 		\"report_month\":
-			print(Globals.report_db.get(str(date.month), null))
+			print(Globals.report_db[\"month\"])
 		\"report_year\":
 			pass
 "

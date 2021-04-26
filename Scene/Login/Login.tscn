@@ -82,17 +82,12 @@ onready var EmailInput : LineEdit = get_node(EmailInput_path)
 onready var PasswordInput : LineEdit = get_node(PasswordInput_path)
 
 func _on_LoginButton_pressed():
-	var user_db = Globals.user_db
-	if user_db:
-		if user_db.has(email):
-			if user_db[email][\"password\"] == password:
-				print_debug(\"Authenticated\")
-				SceneChanger.change_scene(Globals.MainMenuScene, \"fade\")
-			else:
-				print_debug(\"$s don't exist\" % email)
+	if Globals.user_valid(email, password):
+		print_debug(\"Authenticated\")
+		SceneChanger.change_scene(Globals.MainMenuScene, \"fade\")
 	else:
-		print_debug(\"user_db doesn't exist\")	
-	
+		print_debug(\"Invalid User\")
+		
 func _on_EmailInput_text_changed(new_text):
 	email = new_text
 
@@ -157,34 +152,14 @@ func _on_RegisterButton_pressed():
 			break
 		valid = true
 	
-	#Validate simple val pass
 	valid = valid and password == confirm_password
 	
 	if valid:
-		var file = File.new()		
-		var new_user = {
-				\"fullname\": fullname,
-				\"password\": password
-			}
-		
-		#Pass by reference
-		var user_db = Globals.user_db 
-
-		file.open(Globals.user_file_path, File.WRITE)
-
-		if user_db:
-			user_db[email] = new_user
-		else:
-			user_db = {email: new_user}
-		
-		Globals.user_db = user_db
-		file.store_string(to_json(user_db))
-		print_debug(\"user_db %s\" % user_db)
-		file.close()
+		Globals.add_user(email, fullname, password)
 		SceneChanger.change_scene(Globals.MainMenuScene, \"fade\")
 		
 	else:
-		print_debug(\"Its not valid \", arr)
+		print_debug(\"Invalid Form \", arr)
 		
 			
 		

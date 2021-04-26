@@ -79,67 +79,7 @@ func _on_BackButton_pressed() -> void:
 	SceneChanger.change_back(\"fade\")
 
 func _on_ConfirmButton_pressed() -> void:
-	var file = File.new()
-	var date = OS.get_date()
-	
-	var year = str(date[\"year\"])
-	var month = str(date[\"month\"])
-	var week = str(floor((date[\"day\"] - 1) / 7 + 1))
-	var day = str(date[\"day\"])
-	var timestamp = str(OS.get_system_time_msecs())
-	
-	var trans := payment_data
-	
-	date = [year, month, week,day]
-	
-	if not Globals.trans_db:
-		Globals.trans_db = {
-			year: {
-				month: {
-					week: {
-						day: {}
-					}
-				}
-			}
-		}
-	
-	Globals.trans_db[year] = Globals.trans_db.get(year, {})
-	Globals.trans_db[year][month] = Globals.trans_db[year].get(month, {})
-	Globals.trans_db[year][month][week] = Globals.trans_db[year][month].get(week, {})
-	Globals.trans_db[year][month][week][day] = Globals.trans_db[year][month][week].get(day, {})
-	Globals.trans_db[year][month][week][day][timestamp] = trans
-	
-	if not Globals.report_db:
-		Globals.report_db = {
-			\"year\": {},
-			\"month\": {},
-			\"week\": {},
-			\"day\": {}
-		}
-	
-	for stamp in Globals.report_db.keys():
-		if Globals.report_db[stamp].empty():
-			Globals.report_db[stamp] = {
-				\"price\": trans.price,
-				\"sold\": trans.sold.duplicate(true)
-			}
-			continue
-			
-		Globals.report_db[stamp].price += trans.price
-		
-		for item in trans.sold.keys():
-			Globals.report_db[stamp].sold[item] += trans.sold[item]
-	
-		
-
-	file.open(Globals.trans_file_path, File.WRITE)
-	file.store_string(to_json(Globals.trans_db))
-	file.close()
-	
-	file.open(Globals.report_file_path, File.WRITE)
-	file.store_string(to_json(Globals.report_db))
-	file.close()
-	
+	Globals.new_trans(payment_data)
 	SceneChanger.change_scene(Globals.MainMenuScene, \"fade\")
 "
 

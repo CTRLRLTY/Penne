@@ -18,25 +18,29 @@ const trans_file_path = "user://transactions.json"
 const report_file_path = "user://reports.json"
 const image_dir_path = "user://images/"
 
-
-var user_db 
-var resource_db
-var trans_db
-var report_db
+var user_db setget set_user_db
+var resource_db 
+var trans_db setget set_trans_db
+var report_db setget set_report_db 
 var image_plugin
 
-var test = {}
+var year : String
+var month : String
+var week : String
+var day : String
+
 func _ready():
+	_set_date()
 	print_debug(OS.get_user_data_dir())
 	var dir = Directory.new()
 	
 	if not dir.dir_exists(image_dir_path):
 		dir.make_dir(image_dir_path)
 	
-	user_db = _open_file(user_file_path)
-	resource_db = _open_file(rsc_file_path)
-	trans_db = _open_file(trans_file_path)
-	report_db = _open_file(report_file_path)
+	self.user_db = _open_file(user_file_path)
+	self.resource_db = _open_file(rsc_file_path)
+	self.trans_db = _open_file(trans_file_path)
+	self.report_db = _open_file(report_file_path)
 	
 	if Engine.has_singleton("GodotGetImage"):
 		image_plugin = Engine.get_singleton("GodotGetImage")
@@ -45,8 +49,8 @@ func _ready():
 		
 
 func _open_file(file_path : String):
-	var file = File.new()
-	var db = null
+	var file := File.new()
+	var db := {}
 	
 	if file.file_exists(file_path):
 		file.open(file_path, File.READ)
@@ -54,7 +58,90 @@ func _open_file(file_path : String):
 		file.close()
 		
 	return db
-		
 
+func _save_db(db : Dictionary, path: String):
+	var file = File.new()
+	file.open(path, File.WRITE)
+	file.store_string(to_json(db))
+	file.close()
+	
+func _set_date():
+	var date = OS.get_date()
 
+	year = str(date["year"])
+	month = str(date["month"])
+	week = str(floor((date["day"] - 1) / 7 + 1))
+	day = str(date["day"])
+	
+func _new_report(trans: Dictionary, date: String, stamp: String) -> void:
+	if report_db[date].has(stamp):
+		report_db[date][stamp].price += trans.price
 		
+		for item in trans.sold.keys():
+			report_db[date][stamp].sold[item] += trans.sold[item]
+	else:
+		report_db[date][stamp] = trans
+		
+func set_user_db(new_db: Dictionary) -> void:
+	user_db = new_db
+	_save_db(user_db, user_file_path)
+	
+func set_trans_db(new_db: Dictionary) -> void:	
+	if new_db.empty():
+		trans_db = {
+			year: {
+				month: {
+					week: {
+						day: {}
+					}
+				}
+			}
+		}
+	else:
+		trans_db = new_db
+	
+	_save_db(trans_db, trans_file_path)
+
+func set_report_db(new_db: Dictionary) -> void:
+	if new_db.empty():
+		report_db = {
+			"year": {},
+			"month": {},
+			"week": {},
+			"day": {}
+		}
+	else:
+		report_db = new_db
+	_save_db(report_db, report_file_path)
+	
+func add_user(email: String, fullname: String, password: String) -> void: 
+	user_db[email] = {
+		"fullname": fullname,
+		"password": password
+	}
+	_save_db(user_db, user_file_path)
+	
+func user_valid(email: String, password: String) -> bool:
+	if user_db.has(email):
+		return user_db[email]["password"] == password
+	else:
+		return false
+	
+func new_trans(trans: Dictionary) -> void:
+	_set_date()
+	
+	_new_report(trans.duplicate(true), "year", year)
+	_new_report(trans.duplicate(true), "month", month)
+	_new_report(trans.duplicate(true), "week", week)
+	_new_report(trans.duplicate(true), "day", day)
+	_save_db(report_db, report_file_path)
+	
+	trans_db[year][month][week][day][str(OS.get_system_time_msecs())] = trans
+	_save_db(trans_db, trans_file_path)
+	
+
+	
+	
+
+	
+
