@@ -231,7 +231,6 @@ RegisterContainerPath = NodePath("RegisterContainer")
 BackButtonPath = NodePath("BackButton")
 
 [node name="LoginContainer" type="HBoxContainer" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 0
@@ -378,6 +377,7 @@ __meta__ = {
 }
 
 [node name="RegisterContainer" type="PanelContainer" parent="."]
+visible = false
 anchor_left = 0.265625
 anchor_right = 0.734375
 anchor_bottom = 1.0

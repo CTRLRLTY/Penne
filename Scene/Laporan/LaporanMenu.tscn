@@ -1,0 +1,210 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://resources/Main.theme" type="Theme" id=1]
+[ext_resource path="res://asset/moneyBG.png" type="Texture" id=2]
+[ext_resource path="res://resources/LaporanHeaderBG.tres" type="StyleBox" id=3]
+[ext_resource path="res://resources/LaporanPopupBtnGroup.tres" type="ButtonGroup" id=4]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 1600, 1200 )
+
+[sub_resource type="StyleBoxLine" id=3]
+color = Color( 1, 1, 1, 1 )
+grow_begin = 0.0
+grow_end = 0.0
+vertical = true
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Button
+
+export(NodePath) var PopupPanelPath : NodePath
+export(ButtonGroup) var ItemBtnGroup : ButtonGroup
+
+onready var popup_panel : PopupPanel = get_node(PopupPanelPath)
+
+
+func _on_ModalButton_pressed() -> void:
+	var modal_rect2 := get_global_rect()
+	var button_height := floor(modal_rect2.size.y)
+	print(modal_rect2)
+	modal_rect2.position.y += button_height
+	print(modal_rect2)
+	popup_panel.popup(modal_rect2)
+	
+
+func _on_Item_pressed() -> void:
+	var item_pressed : Button = ItemBtnGroup.get_pressed_button()
+	var date = OS.get_datetime()
+	popup_panel.hide()
+	self.text = item_pressed.text
+	
+	if not Globals.report_db:
+		return
+			
+	match item_pressed.shortcut.shortcut.action:
+		\"report_day\":
+			print(Globals.report_db.get(str(date.day), null))
+		\"report_week\":
+			pass
+		\"report_month\":
+			print(Globals.report_db.get(str(date.month), null))
+		\"report_year\":
+			pass
+"
+
+[sub_resource type="StyleBoxEmpty" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=11]
+
+[sub_resource type="StyleBoxEmpty" id=21]
+
+[sub_resource type="StyleBoxEmpty" id=13]
+
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[sub_resource type="InputEventAction" id=31]
+action = "report_day"
+pressed = true
+
+[sub_resource type="ShortCut" id=32]
+shortcut = SubResource( 31 )
+
+[sub_resource type="StyleBoxEmpty" id=23]
+
+[sub_resource type="StyleBoxEmpty" id=24]
+
+[sub_resource type="StyleBoxEmpty" id=25]
+
+[sub_resource type="StyleBoxEmpty" id=26]
+
+[sub_resource type="StyleBoxEmpty" id=27]
+
+[sub_resource type="InputEventAction" id=22]
+action = "report_month"
+pressed = true
+
+[sub_resource type="ShortCut" id=30]
+shortcut = SubResource( 22 )
+
+[node name="Background" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 640.0
+margin_bottom = 360.0
+custom_constants/separation = 0
+
+[node name="Header" type="PanelContainer" parent="VBoxContainer"]
+margin_right = 640.0
+margin_bottom = 19.0
+custom_styles/panel = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
+margin_right = 640.0
+margin_bottom = 19.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+margin_right = 479.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+text = "Laporan ku"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/Header/HBoxContainer"]
+margin_left = 479.0
+margin_right = 480.0
+margin_bottom = 19.0
+custom_styles/separator = SubResource( 3 )
+custom_constants/separation = 1
+
+[node name="ModalButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer"]
+margin_left = 480.0
+margin_right = 640.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
+text = "Pilih"
+script = SubResource( 4 )
+PopupPanelPath = NodePath("PopupPanel")
+ItemBtnGroup = ExtResource( 4 )
+
+[node name="PopupPanel" type="PopupPanel" parent="VBoxContainer/Header/HBoxContainer/ModalButton"]
+margin_right = 43.0
+margin_bottom = 27.0
+theme = ExtResource( 1 )
+custom_styles/panel = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DayButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer"]
+margin_right = 47.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/focus = SubResource( 21 )
+custom_styles/disabled = SubResource( 13 )
+custom_styles/normal = SubResource( 14 )
+toggle_mode = true
+action_mode = 0
+shortcut = SubResource( 32 )
+group = ExtResource( 4 )
+text = "Harian"
+
+[node name="MonthButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer"]
+margin_right = 47.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 23 )
+custom_styles/pressed = SubResource( 24 )
+custom_styles/focus = SubResource( 25 )
+custom_styles/disabled = SubResource( 26 )
+custom_styles/normal = SubResource( 27 )
+toggle_mode = true
+action_mode = 0
+shortcut = SubResource( 30 )
+group = ExtResource( 4 )
+text = "Bulanan"
+
+[node name="Body" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 19.0
+margin_right = 640.0
+margin_bottom = 19.0
+
+[connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_ModalButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
+[connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]

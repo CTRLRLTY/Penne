@@ -25,6 +25,9 @@ func bootload(carry : Dictionary) -> void:
 func _on_ProceedButton_pressed() -> void:
 	var toggled_radio = RadioGroup.get_pressed_button()
 
+	if not toggled_radio:
+		return
+		
 	var carry := {
 		\"price\": 0,
 		\"sold\": {},
