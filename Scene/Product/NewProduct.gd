@@ -46,6 +46,7 @@ func _on_image_receive(images: Dictionary):
 		
 func _on_SaveButton_pressed():
 	save_button.disabled = true
+
 	var product = {
 		"name": name_prop.prop_value,
 		"stock": amount_prop.prop_value,
@@ -54,14 +55,12 @@ func _on_SaveButton_pressed():
 		"imagePath": "res://asset/godot.png"
 	}
 		
-	Globals.resource_db[product["name"]] = product
-		
 	if image_rect.texture: 
 		product["imagePath"] = Globals.image_dir_path + product["name"] + ".res"
 		ResourceSaver.save(product["imagePath"], image_rect.texture, ResourceSaver.FLAG_COMPRESS)
 
-	Globals._save_db(Globals.resource_db, Globals.rsc_file_path)
-	print_debug("Product Saved: ", product["name"])
+	Globals.modify_product(product)
+	
 	SceneChanger.change_back("fade")
 	
 func _on_EditImageButton_pressed():

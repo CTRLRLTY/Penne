@@ -143,6 +143,20 @@ func user_valid(email: String, password: String) -> bool:
 	else:
 		return false
 	
+func remove_resource(res_name: String):
+	if not resource_db.empty():
+		resource_db.erase(res_name)
+		_save_db(resource_db, Globals.rsc_file_path)
+		
+func modify_product(item: Dictionary) -> void:
+	if int(item.stock) < 1:
+		if resource_db.has(item.name):
+			remove_resource(item.name)
+		return
+		
+	resource_db[item.name] = item
+	_save_db(resource_db, Globals.rsc_file_path)
+		
 func new_trans(trans: Dictionary) -> void:
 	_set_date()
 	
@@ -150,13 +164,23 @@ func new_trans(trans: Dictionary) -> void:
 	_new_report(trans.duplicate(true), "month", _month)
 	_new_report(trans.duplicate(true), "week", _week)
 	_new_report(trans.duplicate(true), "day", _day)
-	_save_db(report_db, report_file_path)
+	
 	
 	trans_db[_year] = trans_db.get(_year, {})
 	trans_db[_year][_month] = trans_db[_year].get(_month,{})
 	trans_db[_year][_month][_week] = trans_db[_year][_month].get(_week, {})
 	trans_db[_year][_month][_week][_day] = trans_db[_year][_month][_week].get(_day, {})
 	trans_db[_year][_month][_week][_day][str(OS.get_system_time_msecs())] = trans
+	
+	for item in trans.sold.keys():
+		if resource_db.has(item):
+			var new_stock = int(resource_db[item].stock) - trans.sold[item]
+			if new_stock < 1:
+				remove_resource(item)
+			else:
+				resource_db[item].stock = str(int(resource_db[item].stock) - trans.sold[item])
+			
+	_save_db(report_db, report_file_path)
 	_save_db(trans_db, trans_file_path)
 	
 

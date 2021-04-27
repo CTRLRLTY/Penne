@@ -18,6 +18,9 @@ func _ready():
 	if not pages.empty():
 		if pages[-1].empty():
 			pages.pop_back()
+	else:
+		$HBoxContainer/PayButton.hide()
+
 		
 func _show_page(products : Array) -> void:	
 	for product in products:

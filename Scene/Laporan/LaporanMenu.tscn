@@ -1,13 +1,15 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://resources/Main.theme" type="Theme" id=1]
 [ext_resource path="res://asset/moneyBG.png" type="Texture" id=2]
 [ext_resource path="res://resources/LaporanHeaderBG.tres" type="StyleBox" id=3]
 [ext_resource path="res://resources/LaporanPopupBtnGroup.tres" type="ButtonGroup" id=4]
 [ext_resource path="res://resources/Background.stylebox" type="StyleBox" id=5]
+[ext_resource path="res://Scene/Login/BackButton.tscn" type="PackedScene" id=6]
 [ext_resource path="res://resources/RobotoBold.tres" type="DynamicFont" id=7]
 [ext_resource path="res://resources/RobotoDF.tres" type="DynamicFont" id=8]
 [ext_resource path="res://resources/RobotoThin.tres" type="DynamicFont" id=9]
+[ext_resource path="res://resources/LaporanModalButton.stylebox" type="StyleBox" id=10]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 2 )
@@ -52,23 +54,11 @@ func _show_report(date: String, stamp: String):
 func _on_Report_toggled(button_pressed: bool, stamp: String) -> void:
 	body.show()
 	_show_report(stamp, date[stamp])
+
+
+func _on_BackButton_pressed() -> void:
+	SceneChanger.change_scene(Globals.MainMenuScene, 'fade')
 "
-
-[sub_resource type="StyleBoxLine" id=2]
-color = Color( 1, 1, 1, 1 )
-grow_begin = 0.0
-grow_end = 0.0
-vertical = true
-
-[sub_resource type="StyleBoxEmpty" id=3]
-
-[sub_resource type="StyleBoxEmpty" id=4]
-
-[sub_resource type="StyleBoxEmpty" id=5]
-
-[sub_resource type="StyleBoxEmpty" id=6]
-
-[sub_resource type="StyleBoxEmpty" id=7]
 
 [sub_resource type="GDScript" id=8]
 script/source = "extends Button
@@ -92,6 +82,11 @@ func _on_Item_pressed() -> void:
 	self.text = item_pressed.text
 
 "
+
+[sub_resource type="StyleBoxFlat" id=29]
+bg_color = Color( 0.380392, 0.811765, 0.94902, 0.501961 )
+border_width_left = 1
+border_color = Color( 1, 1, 1, 0 )
 
 [sub_resource type="StyleBoxEmpty" id=9]
 
@@ -204,17 +199,25 @@ custom_constants/separation = 10
 
 [node name="Header" type="PanelContainer" parent="VBoxContainer"]
 margin_right = 640.0
-margin_bottom = 19.0
+margin_bottom = 40.0
 custom_styles/panel = ExtResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
 margin_right = 640.0
-margin_bottom = 19.0
-custom_constants/separation = 0
+margin_bottom = 40.0
+custom_constants/separation = 10
+
+[node name="BackButton" parent="VBoxContainer/Header/HBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
 
 [node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
-margin_right = 479.0
-margin_bottom = 19.0
+margin_left = 50.0
+margin_top = 10.0
+margin_right = 485.0
+margin_bottom = 29.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
 text = "Laporan ku"
@@ -222,25 +225,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/Header/HBoxContainer"]
-margin_left = 479.0
-margin_right = 480.0
-margin_bottom = 19.0
-custom_styles/separator = SubResource( 2 )
-custom_constants/separation = 1
-
 [node name="ModalButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer"]
-margin_left = 480.0
+margin_left = 495.0
 margin_right = 640.0
-margin_bottom = 19.0
+margin_bottom = 40.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
-custom_styles/hover = SubResource( 3 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 5 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = ExtResource( 10 )
+custom_styles/pressed = ExtResource( 10 )
+custom_styles/focus = ExtResource( 10 )
+custom_styles/disabled = ExtResource( 10 )
+custom_styles/normal = ExtResource( 10 )
 text = "Pilih"
+flat = false
 script = SubResource( 8 )
 PopupPanelPath = NodePath("PopupPanel")
 ItemBtnGroup = ExtResource( 4 )
@@ -249,7 +246,7 @@ ItemBtnGroup = ExtResource( 4 )
 margin_right = 43.0
 margin_bottom = 27.0
 theme = ExtResource( 1 )
-custom_styles/panel = ExtResource( 3 )
+custom_styles/panel = SubResource( 29 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -318,7 +315,7 @@ group = ExtResource( 4 )
 text = "Tahunan"
 
 [node name="Body" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 29.0
+margin_top = 50.0
 margin_right = 640.0
 margin_bottom = 360.0
 size_flags_horizontal = 3
@@ -332,13 +329,13 @@ custom_constants/margin_bottom = 0
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Body"]
 margin_left = 5.0
 margin_right = 635.0
-margin_bottom = 331.0
+margin_bottom = 310.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TextContainer" type="VBoxContainer" parent="VBoxContainer/Body/HBoxContainer"]
 margin_right = 122.0
-margin_bottom = 331.0
+margin_bottom = 310.0
 custom_constants/separation = 10
 
 [node name="TransactionLabel" type="Label" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
@@ -415,7 +412,7 @@ editable = false
 [node name="BarGraph" type="PanelContainer" parent="VBoxContainer/Body/HBoxContainer"]
 margin_left = 126.0
 margin_right = 630.0
-margin_bottom = 331.0
+margin_bottom = 310.0
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 5 )
 script = SubResource( 27 )
@@ -423,7 +420,7 @@ BarContainerPath = NodePath("MarginContainer/ScrollContainer/MarginContainer/Bar
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph"]
 margin_right = 504.0
-margin_bottom = 331.0
+margin_bottom = 310.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 0
 custom_constants/margin_left = 10
@@ -432,12 +429,12 @@ custom_constants/margin_bottom = 0
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer"]
 margin_left = 10.0
 margin_right = 494.0
-margin_bottom = 331.0
+margin_bottom = 310.0
 scroll_vertical_enabled = false
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer"]
 margin_right = 484.0
-margin_bottom = 331.0
+margin_bottom = 310.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 0
@@ -448,7 +445,7 @@ custom_constants/margin_bottom = 0
 [node name="BarContainer" type="HBoxContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer"]
 margin_top = 40.0
 margin_right = 484.0
-margin_bottom = 331.0
+margin_bottom = 310.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 30
@@ -456,6 +453,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_ModalButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "day" ]]
