@@ -1,19 +1,68 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://resources/Main.theme" type="Theme" id=1]
 [ext_resource path="res://asset/moneyBG.png" type="Texture" id=2]
 [ext_resource path="res://resources/LaporanHeaderBG.tres" type="StyleBox" id=3]
 [ext_resource path="res://resources/LaporanPopupBtnGroup.tres" type="ButtonGroup" id=4]
+[ext_resource path="res://resources/Background.stylebox" type="StyleBox" id=5]
+[ext_resource path="res://resources/RobotoBold.tres" type="DynamicFont" id=7]
+[ext_resource path="res://resources/RobotoDF.tres" type="DynamicFont" id=8]
+[ext_resource path="res://resources/RobotoThin.tres" type="DynamicFont" id=9]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 1600, 1200 )
 
-[sub_resource type="StyleBoxLine" id=3]
+[sub_resource type="GDScript" id=28]
+script/source = "extends PanelContainer
+
+const RP_PREFIX = \"Rp\"
+
+export(NodePath) var TransactionAmountPath : NodePath
+export(NodePath) var IncomeAmountPath : NodePath
+export(NodePath) var ExpensesAmountPath : NodePath
+export(NodePath) var AccumulationPath : NodePath
+
+onready var transaction_amount : LineEdit = get_node(TransactionAmountPath)
+onready var income_amount : LineEdit = get_node(IncomeAmountPath)
+onready var expense_amount : LineEdit = get_node(ExpensesAmountPath)
+onready var accumulation_amount : LineEdit = get_node(AccumulationPath)
+onready var body = $VBoxContainer/Body
+onready var date = Globals.date
+
+func _ready():
+	body.hide()
+
+func _set_texts(trans: String, income: String, expense: String, accumulation: String):
+	transaction_amount.text = trans
+	income_amount.text = RP_PREFIX + income
+	expense_amount.text = RP_PREFIX + expense
+	accumulation_amount.text = RP_PREFIX + accumulation
+	
+func _show_report(date: String, stamp: String):
+	if Globals.report_db[date].has(stamp):
+		var trans := str(Globals.report_db[date].size())
+		var income := str(Globals.report_db[date][stamp][\"price\"])
+		var expense := str(Globals.report_db[date][stamp][\"modal\"])
+		var accumulation := str(Globals.report_db[date][stamp][\"price\"] - Globals.report_db[date][stamp][\"modal\"])
+		_set_texts(trans, income, expense, accumulation)
+	else:
+		_set_texts('0', '0', '0', '0')
+	
+func _on_Report_toggled(button_pressed: bool, stamp: String) -> void:
+	body.show()
+	_show_report(stamp, date[stamp])
+"
+
+[sub_resource type="StyleBoxLine" id=2]
 color = Color( 1, 1, 1, 1 )
 grow_begin = 0.0
 grow_end = 0.0
 vertical = true
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
 
 [sub_resource type="StyleBoxEmpty" id=5]
 
@@ -21,11 +70,7 @@ vertical = true
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
-[sub_resource type="StyleBoxEmpty" id=8]
-
-[sub_resource type="StyleBoxEmpty" id=9]
-
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=8]
 script/source = "extends Button
 
 export(NodePath) var PopupPanelPath : NodePath
@@ -37,9 +82,7 @@ onready var popup_panel : PopupPanel = get_node(PopupPanelPath)
 func _on_ModalButton_pressed() -> void:
 	var modal_rect2 := get_global_rect()
 	var button_height := floor(modal_rect2.size.y)
-	print(modal_rect2)
 	modal_rect2.position.y += button_height
-	print(modal_rect2)
 	popup_panel.popup(modal_rect2)
 	
 
@@ -47,37 +90,53 @@ func _on_Item_pressed() -> void:
 	var item_pressed : Button = ItemBtnGroup.get_pressed_button()
 	popup_panel.hide()
 	self.text = item_pressed.text
-	
-	if not Globals.report_db:
-		return
-			
-	match item_pressed.shortcut.shortcut.action:
-		\"report_day\":
-			print(Globals.report_db[\"day\"])
-		\"report_week\":
-			print(Globals.report_db[\"week\"])
-		\"report_month\":
-			print(Globals.report_db[\"month\"])
-		\"report_year\":
-			pass
+
 "
+
+[sub_resource type="StyleBoxEmpty" id=9]
 
 [sub_resource type="StyleBoxEmpty" id=10]
 
 [sub_resource type="StyleBoxEmpty" id=11]
 
-[sub_resource type="StyleBoxEmpty" id=21]
+[sub_resource type="StyleBoxEmpty" id=12]
 
 [sub_resource type="StyleBoxEmpty" id=13]
 
-[sub_resource type="StyleBoxEmpty" id=14]
+[sub_resource type="StyleBoxEmpty" id=16]
 
-[sub_resource type="InputEventAction" id=31]
-action = "report_day"
-pressed = true
+[sub_resource type="StyleBoxEmpty" id=17]
 
-[sub_resource type="ShortCut" id=32]
-shortcut = SubResource( 31 )
+[sub_resource type="StyleBoxEmpty" id=18]
+
+[sub_resource type="StyleBoxEmpty" id=19]
+
+[sub_resource type="StyleBoxEmpty" id=20]
+
+[sub_resource type="Theme" id=26]
+default_font = ExtResource( 8 )
+Label/colors/font_color = Color( 0, 0, 0, 1 )
+Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
+Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+Label/constants/line_spacing = 3
+Label/constants/shadow_as_outline = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = ExtResource( 7 )
+Label/styles/normal = null
+LineEdit/colors/clear_button_color = Color( 0.88, 0.88, 0.88, 1 )
+LineEdit/colors/clear_button_color_pressed = Color( 1, 1, 1, 1 )
+LineEdit/colors/cursor_color = Color( 0.94, 0.94, 0.94, 1 )
+LineEdit/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/font_color_uneditable = Color( 0.88, 0.88, 0.88, 0.5 )
+LineEdit/colors/selection_color = Color( 0.49, 0.49, 0.49, 1 )
+LineEdit/constants/minimum_spaces = 12
+LineEdit/fonts/font = ExtResource( 9 )
+LineEdit/icons/clear = null
+LineEdit/styles/focus = null
+LineEdit/styles/normal = null
+LineEdit/styles/read_only = null
 
 [sub_resource type="StyleBoxEmpty" id=23]
 
@@ -85,30 +144,63 @@ shortcut = SubResource( 31 )
 
 [sub_resource type="StyleBoxEmpty" id=25]
 
-[sub_resource type="StyleBoxEmpty" id=26]
+[sub_resource type="GDScript" id=27]
+script/source = "extends PanelContainer
 
-[sub_resource type="StyleBoxEmpty" id=27]
+const BarNodeScene = preload(\"res://Scene/Nodes/BarNode.tscn\")
 
-[sub_resource type="InputEventAction" id=22]
-action = "report_month"
-pressed = true
+export(NodePath) var BarContainerPath : NodePath
 
-[sub_resource type="ShortCut" id=30]
-shortcut = SubResource( 22 )
+onready var date : Dictionary = Globals.date
+onready var bar_container : HBoxContainer = get_node(BarContainerPath)
+
+var bar_container_height
+
+func _create_bar(name: String, amount: int, max_amount: int) -> void:
+	var bar = BarNodeScene.instance()
+	bar.BarName = name
+	bar.Amount = amount
+	bar.bar_height = range_lerp(amount, 0, max_amount, bar.rect_min_size.y, bar_container_height)
+	bar_container.add_child(bar)
+	
+
+	
+func _show_report_graph(date: String, stamp: String) -> void:
+	for child in bar_container.get_children():
+		child.queue_free()
+	
+	yield(get_tree(), \"idle_frame\")
+	
+	if Globals.report_db[date].has(stamp):
+		bar_container_height = bar_container.get_size().y
+		var max_amount = Globals.report_db[date][stamp].sold.values().max()
+		for itemName in Globals.report_db[date][stamp].sold.keys():
+			_create_bar(itemName, Globals.report_db[date][stamp].sold[itemName], max_amount)
+	
+func _on_Report_toggled(button_pressed: bool, stamp: String) -> void:
+	if button_pressed:
+		_show_report_graph(stamp, date[stamp])
+
+"
 
 [node name="Background" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
 custom_styles/panel = SubResource( 1 )
+script = SubResource( 28 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+TransactionAmountPath = NodePath("VBoxContainer/Body/HBoxContainer/TextContainer/TransactionAmount")
+IncomeAmountPath = NodePath("VBoxContainer/Body/HBoxContainer/TextContainer/IncomeAmount")
+ExpensesAmountPath = NodePath("VBoxContainer/Body/HBoxContainer/TextContainer/ExpenseAmount")
+AccumulationPath = NodePath("VBoxContainer/Body/HBoxContainer/TextContainer/AccumulationAmount")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 640.0
 margin_bottom = 360.0
-custom_constants/separation = 0
+custom_constants/separation = 10
 
 [node name="Header" type="PanelContainer" parent="VBoxContainer"]
 margin_right = 640.0
@@ -134,7 +226,7 @@ __meta__ = {
 margin_left = 479.0
 margin_right = 480.0
 margin_bottom = 19.0
-custom_styles/separator = SubResource( 3 )
+custom_styles/separator = SubResource( 2 )
 custom_constants/separation = 1
 
 [node name="ModalButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer"]
@@ -143,13 +235,13 @@ margin_right = 640.0
 margin_bottom = 19.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/disabled = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 7 )
 text = "Pilih"
-script = SubResource( 4 )
+script = SubResource( 8 )
 PopupPanelPath = NodePath("PopupPanel")
 ItemBtnGroup = ExtResource( 4 )
 
@@ -173,37 +265,207 @@ __meta__ = {
 margin_right = 47.0
 margin_bottom = 19.0
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 11 )
-custom_styles/focus = SubResource( 21 )
-custom_styles/disabled = SubResource( 13 )
-custom_styles/normal = SubResource( 14 )
+custom_styles/hover = SubResource( 9 )
+custom_styles/pressed = SubResource( 10 )
+custom_styles/focus = SubResource( 11 )
+custom_styles/disabled = SubResource( 12 )
+custom_styles/normal = SubResource( 13 )
 toggle_mode = true
 action_mode = 0
-shortcut = SubResource( 32 )
 group = ExtResource( 4 )
 text = "Harian"
+
+[node name="WeekButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer"]
+margin_right = 47.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 9 )
+custom_styles/pressed = SubResource( 10 )
+custom_styles/focus = SubResource( 11 )
+custom_styles/disabled = SubResource( 12 )
+custom_styles/normal = SubResource( 13 )
+toggle_mode = true
+action_mode = 0
+group = ExtResource( 4 )
+text = "Mingguan"
 
 [node name="MonthButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer"]
 margin_right = 47.0
 margin_bottom = 19.0
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 23 )
-custom_styles/pressed = SubResource( 24 )
-custom_styles/focus = SubResource( 25 )
-custom_styles/disabled = SubResource( 26 )
-custom_styles/normal = SubResource( 27 )
+custom_styles/hover = SubResource( 16 )
+custom_styles/pressed = SubResource( 17 )
+custom_styles/focus = SubResource( 18 )
+custom_styles/disabled = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
 toggle_mode = true
 action_mode = 0
-shortcut = SubResource( 30 )
 group = ExtResource( 4 )
 text = "Bulanan"
 
-[node name="Body" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 19.0
-margin_right = 640.0
+[node name="YearButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer"]
+margin_right = 47.0
 margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 16 )
+custom_styles/pressed = SubResource( 17 )
+custom_styles/focus = SubResource( 18 )
+custom_styles/disabled = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
+toggle_mode = true
+action_mode = 0
+group = ExtResource( 4 )
+text = "Tahunan"
+
+[node name="Body" type="MarginContainer" parent="VBoxContainer"]
+margin_top = 29.0
+margin_right = 640.0
+margin_bottom = 360.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 26 )
+custom_constants/margin_right = 5
+custom_constants/margin_top = 0
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Body"]
+margin_left = 5.0
+margin_right = 635.0
+margin_bottom = 331.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextContainer" type="VBoxContainer" parent="VBoxContainer/Body/HBoxContainer"]
+margin_right = 122.0
+margin_bottom = 331.0
+custom_constants/separation = 10
+
+[node name="TransactionLabel" type="Label" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
+margin_right = 122.0
+margin_bottom = 19.0
+text = "Total Transaksi: "
+
+[node name="TransactionAmount" type="LineEdit" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
+margin_top = 29.0
+margin_right = 122.0
+margin_bottom = 44.0
+custom_styles/read_only = SubResource( 23 )
+custom_styles/focus = SubResource( 24 )
+custom_styles/normal = SubResource( 25 )
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+editable = false
+
+[node name="IncomeLabel" type="Label" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
+margin_top = 54.0
+margin_right = 122.0
+margin_bottom = 73.0
+text = "Pemasukan: "
+
+[node name="IncomeAmount" type="LineEdit" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
+margin_top = 83.0
+margin_right = 122.0
+margin_bottom = 98.0
+custom_styles/read_only = SubResource( 23 )
+custom_styles/focus = SubResource( 24 )
+custom_styles/normal = SubResource( 25 )
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+text = "Rp 0"
+align = 1
+editable = false
+
+[node name="ExpenseLabel" type="Label" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
+margin_top = 108.0
+margin_right = 122.0
+margin_bottom = 127.0
+text = "Pengeluaran:"
+
+[node name="ExpenseAmount" type="LineEdit" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
+margin_top = 137.0
+margin_right = 122.0
+margin_bottom = 152.0
+custom_styles/read_only = SubResource( 23 )
+custom_styles/focus = SubResource( 24 )
+custom_styles/normal = SubResource( 25 )
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+text = "Rp 0"
+align = 1
+editable = false
+
+[node name="Accumulationlabel" type="Label" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
+margin_top = 162.0
+margin_right = 122.0
+margin_bottom = 181.0
+text = "Akumulasi:"
+
+[node name="AccumulationAmount" type="LineEdit" parent="VBoxContainer/Body/HBoxContainer/TextContainer"]
+margin_top = 191.0
+margin_right = 122.0
+margin_bottom = 206.0
+custom_styles/read_only = SubResource( 23 )
+custom_styles/focus = SubResource( 24 )
+custom_styles/normal = SubResource( 25 )
+custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+text = "Rp 0"
+align = 1
+editable = false
+
+[node name="BarGraph" type="PanelContainer" parent="VBoxContainer/Body/HBoxContainer"]
+margin_left = 126.0
+margin_right = 630.0
+margin_bottom = 331.0
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 5 )
+script = SubResource( 27 )
+BarContainerPath = NodePath("MarginContainer/ScrollContainer/MarginContainer/BarContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph"]
+margin_right = 504.0
+margin_bottom = 331.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 0
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer"]
+margin_left = 10.0
+margin_right = 494.0
+margin_bottom = 331.0
+scroll_vertical_enabled = false
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer"]
+margin_right = 484.0
+margin_bottom = 331.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 0
+custom_constants/margin_top = 40
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+
+[node name="BarContainer" type="HBoxContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer"]
+margin_top = 40.0
+margin_right = 484.0
+margin_bottom = 331.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_ModalButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "day" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="." method="_on_Report_toggled" binds= [ "day" ]]
+[connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "week" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="." method="_on_Report_toggled" binds= [ "week" ]]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "month" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="." method="_on_Report_toggled" binds= [ "month" ]]
+[connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "year" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="." method="_on_Report_toggled" binds= [ "year" ]]

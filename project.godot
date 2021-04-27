@@ -50,14 +50,6 @@ pay_card={
 "deadzone": 0.5,
 "events": [  ]
 }
-report_day={
-"deadzone": 0.5,
-"events": [  ]
-}
-report_month={
-"deadzone": 0.5,
-"events": [  ]
-}
 
 [input_devices]
 

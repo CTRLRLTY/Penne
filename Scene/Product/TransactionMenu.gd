@@ -12,11 +12,13 @@ func _bootload(carry):
 	amount_cache = page_cache[current_page]["amounts"]
 
 func _ready():
+	#Removes Empty Pages
+	#This is a stupid bug, but I'm lazy to fix it,
+	#so this workaround will do.
 	if not pages.empty():
 		if pages[-1].empty():
 			pages.pop_back()
-	
-	
+		
 func _show_page(products : Array) -> void:	
 	for product in products:
 		var product_card : Control = ProductCardScene.instance()

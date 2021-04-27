@@ -18,18 +18,21 @@ const trans_file_path = "user://transactions.json"
 const report_file_path = "user://reports.json"
 const image_dir_path = "user://images/"
 
+var _year : String
+var _month : String
+var _week : String
+var _day : String
+
+var date : Dictionary setget , get_date
+
 var user_db setget set_user_db
 var resource_db 
 var trans_db setget set_trans_db
 var report_db setget set_report_db 
 var image_plugin
 
-var year : String
-var month : String
-var week : String
-var day : String
-
 func _ready():
+	
 	_set_date()
 	print_debug(OS.get_user_data_dir())
 	var dir = Directory.new()
@@ -68,17 +71,29 @@ func _save_db(db : Dictionary, path: String):
 func _set_date():
 	var date = OS.get_date()
 
-	year = str(date["year"])
-	month = str(date["month"])
-	week = str(floor((date["day"] - 1) / 7 + 1))
-	day = str(date["day"])
+	_year = str(date["year"])
+	_month = str(date["month"])
+	_week = str(floor((date["day"] - 1) / 7 + 1))
+	_day = str(date["day"])
+	
+func get_date():
+	_set_date()
+	return {
+	"year": _year,
+	"month": _month,
+	"week": _week,
+	"day": _day
+	}
 	
 func _new_report(trans: Dictionary, date: String, stamp: String) -> void:
 	if report_db[date].has(stamp):
 		report_db[date][stamp].price += trans.price
-		
+		report_db[date][stamp].modal += trans.modal
 		for item in trans.sold.keys():
-			report_db[date][stamp].sold[item] += trans.sold[item]
+			if report_db[date][stamp].sold.has(item):
+				report_db[date][stamp].sold[item] += trans.sold[item]
+			else:
+				report_db[date][stamp].sold[item] = trans.sold[item]
 	else:
 		report_db[date][stamp] = trans
 		
@@ -88,11 +103,12 @@ func set_user_db(new_db: Dictionary) -> void:
 	
 func set_trans_db(new_db: Dictionary) -> void:	
 	if new_db.empty():
+		
 		trans_db = {
-			year: {
-				month: {
-					week: {
-						day: {}
+			_year: {
+				_month: {
+					_week: {
+						_day: {}
 					}
 				}
 			}
@@ -130,13 +146,17 @@ func user_valid(email: String, password: String) -> bool:
 func new_trans(trans: Dictionary) -> void:
 	_set_date()
 	
-	_new_report(trans.duplicate(true), "year", year)
-	_new_report(trans.duplicate(true), "month", month)
-	_new_report(trans.duplicate(true), "week", week)
-	_new_report(trans.duplicate(true), "day", day)
+	_new_report(trans.duplicate(true), "year", _year)
+	_new_report(trans.duplicate(true), "month", _month)
+	_new_report(trans.duplicate(true), "week", _week)
+	_new_report(trans.duplicate(true), "day", _day)
 	_save_db(report_db, report_file_path)
 	
-	trans_db[year][month][week][day][str(OS.get_system_time_msecs())] = trans
+	trans_db[_year] = trans_db.get(_year, {})
+	trans_db[_year][_month] = trans_db[_year].get(_month,{})
+	trans_db[_year][_month][_week] = trans_db[_year][_month].get(_week, {})
+	trans_db[_year][_month][_week][_day] = trans_db[_year][_month][_week].get(_day, {})
+	trans_db[_year][_month][_week][_day][str(OS.get_system_time_msecs())] = trans
 	_save_db(trans_db, trans_file_path)
 	
 

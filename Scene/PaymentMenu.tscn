@@ -30,6 +30,7 @@ func _on_ProceedButton_pressed() -> void:
 		
 	var carry := {
 		\"price\": 0,
+		\"modal\": 0,
 		\"sold\": {},
 	}
 	
@@ -38,7 +39,7 @@ func _on_ProceedButton_pressed() -> void:
 		for product in trans.products:
 			carry.sold[product.name] = trans.amounts[product.name]
 			carry.price += trans.amounts[product.name] * int(product.price)
-			
+			carry.modal += trans.amounts[product.name] * int(product.modal)
 	if toggled_radio.shortcut:
 		match toggled_radio.shortcut.shortcut.action:
 			\"pay_cash\": 

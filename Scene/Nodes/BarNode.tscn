@@ -1,0 +1,49 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scene/Nodes/BarNode.gd" type="Script" id=1]
+[ext_resource path="res://resources/Main.theme" type="Theme" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+[node name="BarNode" type="Panel"]
+rect_min_size = Vector2( 55, 55 )
+size_flags_horizontal = 6
+size_flags_vertical = 8
+theme = ExtResource( 2 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_top = -25.0
+margin_right = 20.0
+margin_bottom = -6.0
+grow_horizontal = 2
+text = "name"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Amount" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -9.5
+margin_right = 20.0
+margin_bottom = 9.5
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true
+}
