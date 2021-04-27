@@ -88,15 +88,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
 
-[node name="NameProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Left" instance=ExtResource( 9 )]
-prop_name = "Nama"
-prop_type = 0
+[node name="ProductProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Left" instance=ExtResource( 9 )]
 
 [node name="AmountProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Left" instance=ExtResource( 9 )]
 margin_top = 183.0
 margin_bottom = 236.0
 size_flags_vertical = 10
 prop_name = "Jumlah"
+prop_type = 2
 
 [node name="Middle" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 margin_left = 204.0
@@ -181,12 +180,14 @@ custom_constants/separation = 10
 
 [node name="ModalProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Right" instance=ExtResource( 9 )]
 prop_name = "Modal"
+prop_type = 2
 
 [node name="PriceProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Right" instance=ExtResource( 9 )]
 margin_top = 183.0
 margin_bottom = 236.0
 size_flags_vertical = 10
 prop_name = "Harga"
+prop_type = 2
 
 [connection signal="pressed" from="VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/EditImageButton" to="." method="_on_EditImageButton_pressed"]

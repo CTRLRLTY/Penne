@@ -9,7 +9,7 @@ enum PROP_TYPE {STRING = TYPE_STRING, INT = TYPE_INT}
 
 
 export(String) var prop_name := "Name" setget set_prop_name
-export(PROP_TYPE) var prop_type = TYPE_STRING
+export(PROP_TYPE) var prop_type := TYPE_STRING
 
 var prop_value = "Godot" setget set_prop_value
 
@@ -18,9 +18,14 @@ onready var input : LineEdit = get_node(InputPath)
 onready var edit_button : Button = get_node(EditButtonPath)
 
 func _ready():
-	if prop_type == TYPE_INT:
-		prop_value = "0"
-		input.placeholder_text = "0"
+	match prop_type:
+		TYPE_INT:
+			prop_value = "0"
+			input.placeholder_text = "0"
+		TYPE_STRING:
+			prop_value = ""
+			input.placeholder_text = "X"
+		
 	title.text = prop_name
 
 func _on_EditButton_pressed():
@@ -33,7 +38,7 @@ func _on_Input_focus_exited():
 		input.hide()
 		edit_button.show()
 
-func _on_LineEdit_text_changed(new_text):
+func _on_LineEdit_text_changed(new_text) -> void:
 	if prop_type == TYPE_INT:
 		if not new_text.is_valid_integer():
 			if new_text.empty():
@@ -44,12 +49,12 @@ func _on_LineEdit_text_changed(new_text):
 				new_text = prop_value
 	prop_value = new_text
 
-func set_prop_name(new_name):
+func set_prop_name(new_name) -> void:
 	prop_name = new_name
 	if Engine.editor_hint:
 		get_node(TitlePath).text = prop_name
 		
-func set_prop_value(value):
+func set_prop_value(value) -> void:
 	prop_value = value
 	input.text = value
 	if not input.text.empty():

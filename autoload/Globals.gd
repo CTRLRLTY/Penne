@@ -91,6 +91,7 @@ func _new_report(trans: Dictionary, date: String, stamp: String) -> void:
 	if report_db[date].has(stamp):
 		report_db[date][stamp].price += trans.price
 		report_db[date][stamp].modal += trans.modal
+		report_db[date][stamp].total += 1
 		for item in trans.sold.keys():
 			if report_db[date][stamp].sold.has(item):
 				report_db[date][stamp].sold[item] += trans.sold[item]
@@ -98,6 +99,7 @@ func _new_report(trans: Dictionary, date: String, stamp: String) -> void:
 				report_db[date][stamp].sold[item] = trans.sold[item]
 	else:
 		report_db[date][stamp] = trans
+		report_db[date][stamp].total = 1
 		
 func set_login_user(email: String):
 	if user_db.has(email):

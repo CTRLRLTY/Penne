@@ -43,7 +43,7 @@ func _set_texts(trans: String, income: String, expense: String, accumulation: St
 	
 func _show_report(date: String, stamp: String):
 	if Globals.report_db[date].has(stamp):
-		var trans := str(Globals.report_db[date].size())
+		var trans := str(Globals.report_db[date][stamp][\"total\"])
 		var income := str(Globals.report_db[date][stamp][\"price\"])
 		var expense := str(Globals.report_db[date][stamp][\"modal\"])
 		var accumulation := str(Globals.report_db[date][stamp][\"price\"] - Globals.report_db[date][stamp][\"modal\"])
@@ -69,18 +69,17 @@ export(ButtonGroup) var ItemBtnGroup : ButtonGroup
 onready var popup_panel : PopupPanel = get_node(PopupPanelPath)
 
 
-func _on_ModalButton_pressed() -> void:
-	var modal_rect2 := get_global_rect()
-	var button_height := floor(modal_rect2.size.y)
-	modal_rect2.position.y += button_height
-	popup_panel.popup(modal_rect2)
-	
-
 func _on_Item_pressed() -> void:
 	var item_pressed : Button = ItemBtnGroup.get_pressed_button()
 	popup_panel.hide()
 	self.text = item_pressed.text
 
+func _on_ModalButton_toggled(button_pressed: bool) -> void:
+	if button_pressed:
+		var modal_rect2 := get_global_rect()
+		var button_height := floor(modal_rect2.size.y)
+		modal_rect2.position.y += button_height
+		popup_panel.popup(modal_rect2)
 "
 
 [sub_resource type="StyleBoxFlat" id=29]
@@ -156,17 +155,9 @@ func _create_bar(name: String, amount: int, max_amount: int) -> void:
 	var bar = BarNodeScene.instance()
 	bar.BarName = name
 	bar.Amount = amount
-	var bar_height = range_lerp(amount, 0, max_amount, bar.rect_min_size.y, bar_container_height)
-	bar.rect_min_size.y = bar_height
+	bar.rect_min_size.y = range_lerp(amount, 0, max_amount, bar.rect_min_size.y, bar_container_height)
 	bar_container.add_child(bar)
 
-
-	
-	
-#	print(\"%s: %s\" % [name, bar.rect_min_size.y])
-#	print(bar.get_size())
-
-	
 func _show_report_graph(date: String, stamp: String) -> void:
 	for child in bar_container.get_children():
 		child.queue_free()
@@ -176,10 +167,10 @@ func _show_report_graph(date: String, stamp: String) -> void:
 	if Globals.report_db[date].has(stamp):
 		var max_amount = Globals.report_db[date][stamp].sold.values().max()
 		for itemName in Globals.report_db[date][stamp].sold.keys():
+			if  Globals.report_db[date][stamp].sold[itemName] < 1:
+				continue
 			_create_bar(itemName, Globals.report_db[date][stamp].sold[itemName], max_amount)
 		
-		yield(get_tree(), \"idle_frame\")
-		print(bar_container.get_size())
 
 func _on_Report_toggled(button_pressed: bool, stamp: String) -> void:
 	if button_pressed:
@@ -245,6 +236,7 @@ custom_styles/pressed = ExtResource( 10 )
 custom_styles/focus = ExtResource( 10 )
 custom_styles/disabled = ExtResource( 10 )
 custom_styles/normal = ExtResource( 10 )
+toggle_mode = true
 text = "Pilih"
 flat = false
 script = SubResource( 8 )
@@ -516,16 +508,16 @@ margin_right = 735.0
 margin_bottom = 258.0
 
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_ModalButton_pressed"]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_ModalButton_toggled"]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
-[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "day" ]]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="." method="_on_Report_toggled" binds= [ "day" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "day" ]]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
-[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "week" ]]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="." method="_on_Report_toggled" binds= [ "week" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "week" ]]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
-[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "month" ]]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="." method="_on_Report_toggled" binds= [ "month" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "month" ]]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
-[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "year" ]]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="." method="_on_Report_toggled" binds= [ "year" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "year" ]]

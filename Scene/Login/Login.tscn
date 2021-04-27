@@ -156,7 +156,9 @@ func _on_RegisterButton_pressed():
 	valid = valid and password == confirm_password
 	
 	if valid:
+		
 		Globals.add_user(email, fullname, password)
+		Globals.login_user = email
 		SceneChanger.change_scene(Globals.MainMenuScene, \"fade\")
 		
 	else:

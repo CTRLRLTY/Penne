@@ -60,7 +60,6 @@ func _on_SaveButton_pressed():
 		ResourceSaver.save(product["imagePath"], image_rect.texture, ResourceSaver.FLAG_COMPRESS)
 
 	Globals.modify_product(product)
-	
 	SceneChanger.change_back("fade")
 	
 func _on_EditImageButton_pressed():
