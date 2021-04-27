@@ -25,11 +25,13 @@ var _day : String
 
 var date : Dictionary setget , get_date
 
-var user_db setget set_user_db
-var resource_db 
-var trans_db setget set_trans_db
-var report_db setget set_report_db 
+var user_db : Dictionary setget set_user_db
+var resource_db : Dictionary
+var trans_db : Dictionary setget set_trans_db
+var report_db : Dictionary setget set_report_db 
 var image_plugin
+
+var login_user setget set_login_user
 
 func _ready():
 	
@@ -51,7 +53,7 @@ func _ready():
 	OS.request_permissions()
 		
 
-func _open_file(file_path : String):
+func _open_file(file_path : String) -> Dictionary:
 	var file := File.new()
 	var db := {}
 	
@@ -97,6 +99,10 @@ func _new_report(trans: Dictionary, date: String, stamp: String) -> void:
 	else:
 		report_db[date][stamp] = trans
 		
+func set_login_user(email: String):
+	if user_db.has(email):
+		login_user = user_db[email]
+	
 func set_user_db(new_db: Dictionary) -> void:
 	user_db = new_db
 	_save_db(user_db, user_file_path)

@@ -8,10 +8,8 @@ export(int) var Amount := 0 setget set_amount
 onready var name_label = $Label
 onready var amount_label = $Amount
 
-var bar_height = 0
 
 func _ready():
-	rect_min_size.y = bar_height
 	name_label.text = BarName
 	amount_label.text = str(Amount)
 
