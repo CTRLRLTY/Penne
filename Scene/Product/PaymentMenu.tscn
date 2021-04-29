@@ -1,14 +1,16 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://resources/Background.stylebox" type="StyleBox" id=1]
-[ext_resource path="res://resources/save.stylebox" type="StyleBox" id=2]
-[ext_resource path="res://resources/RobotoBold.tres" type="DynamicFont" id=3]
-[ext_resource path="res://Scene/Login/BackButton.tscn" type="PackedScene" id=4]
-[ext_resource path="res://asset/loginbg.png" type="Texture" id=5]
-[ext_resource path="res://resources/PaymentOptionRadioGroup.tres" type="ButtonGroup" id=6]
-[ext_resource path="res://resources/Main.theme" type="Theme" id=7]
-[ext_resource path="res://asset/visaLogo.png" type="Texture" id=8]
-[ext_resource path="res://resources/pay_card.tres" type="ShortCut" id=9]
+[ext_resource path="res://resources/Main.theme" type="Theme" id=1]
+[ext_resource path="res://asset/loginbg.png" type="Texture" id=2]
+[ext_resource path="res://Scene/Login/BackButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://resources/Background.stylebox" type="StyleBox" id=4]
+[ext_resource path="res://resources/save.stylebox" type="StyleBox" id=5]
+[ext_resource path="res://resources/RobotoBold.tres" type="DynamicFont" id=6]
+[ext_resource path="res://resources/PaymentOptionRadioGroup.tres" type="ButtonGroup" id=7]
+[ext_resource path="res://resources/pay_card.tres" type="ShortCut" id=8]
+[ext_resource path="res://asset/visaLogo.png" type="Texture" id=9]
+
+
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends TextureRect
@@ -69,24 +71,24 @@ shortcut = SubResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource( 7 )
-texture = ExtResource( 5 )
+theme = ExtResource( 1 )
+texture = ExtResource( 2 )
 expand = true
 script = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-RadioGroup = ExtResource( 6 )
+RadioGroup = ExtResource( 7 )
 
-[node name="BackButton" parent="." instance=ExtResource( 4 )]
+[node name="BackButton" parent="." instance=ExtResource( 3 )]
 
 [node name="PaymentContainer" type="PanelContainer" parent="."]
 anchor_left = 0.3125
 anchor_top = -0.00138889
 anchor_right = 0.6875
 anchor_bottom = 1.00139
-custom_styles/panel = ExtResource( 1 )
+custom_styles/panel = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": true
@@ -113,7 +115,7 @@ rect_min_size = Vector2( 0, 41 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 custom_styles/normal = SubResource( 2 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 6 )
 text = "PAYMENT METHODS"
 align = 1
 valign = 1
@@ -143,7 +145,7 @@ margin_right = 134.0
 margin_bottom = 27.0
 action_mode = 0
 shortcut = SubResource( 4 )
-group = ExtResource( 6 )
+group = ExtResource( 7 )
 text = "Cash"
 
 [node name="OVOBox" type="CheckBox" parent="PaymentContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -152,7 +154,7 @@ margin_right = 134.0
 margin_bottom = 64.0
 disabled = true
 action_mode = 0
-group = ExtResource( 6 )
+group = ExtResource( 7 )
 text = "OVO"
 
 [node name="GOPAYBox" type="CheckBox" parent="PaymentContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -161,7 +163,7 @@ margin_right = 134.0
 margin_bottom = 101.0
 disabled = true
 action_mode = 0
-group = ExtResource( 6 )
+group = ExtResource( 7 )
 text = "GOPAY"
 
 [node name="DebitBox" type="CheckBox" parent="PaymentContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -169,8 +171,8 @@ margin_top = 111.0
 margin_right = 134.0
 margin_bottom = 138.0
 action_mode = 0
-shortcut = ExtResource( 9 )
-group = ExtResource( 6 )
+shortcut = ExtResource( 8 )
+group = ExtResource( 7 )
 text = "DEBIT CARD"
 
 [node name="CreditBox" type="CheckBox" parent="PaymentContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -178,8 +180,8 @@ margin_top = 148.0
 margin_right = 134.0
 margin_bottom = 175.0
 action_mode = 0
-shortcut = ExtResource( 9 )
-group = ExtResource( 6 )
+shortcut = ExtResource( 8 )
+group = ExtResource( 7 )
 text = "CREDIT CARD"
 
 [node name="TextureRect" type="TextureRect" parent="PaymentContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
@@ -190,7 +192,7 @@ margin_bottom = 175.0
 rect_min_size = Vector2( 67, 54 )
 size_flags_horizontal = 10
 size_flags_vertical = 10
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 stretch_mode = 6
 
@@ -203,11 +205,10 @@ rect_min_size = Vector2( 174, 33 )
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 10
-custom_styles/hover = ExtResource( 2 )
-custom_styles/pressed = ExtResource( 2 )
-custom_styles/focus = ExtResource( 2 )
-custom_styles/normal = ExtResource( 2 )
+custom_styles/hover = ExtResource( 5 )
+custom_styles/pressed = ExtResource( 5 )
+custom_styles/focus = ExtResource( 5 )
+custom_styles/normal = ExtResource( 5 )
 text = "Proceed"
-
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="PaymentContainer/MarginContainer/VBoxContainer/ProceedButton" to="." method="_on_ProceedButton_pressed"]

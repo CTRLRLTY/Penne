@@ -1,21 +1,22 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://resources/Main.theme" type="Theme" id=1]
-[ext_resource path="res://asset/moneyBG.png" type="Texture" id=2]
-[ext_resource path="res://resources/LaporanHeaderBG.tres" type="StyleBox" id=3]
-[ext_resource path="res://resources/LaporanPopupBtnGroup.tres" type="ButtonGroup" id=4]
-[ext_resource path="res://Scene/Login/BackButton.tscn" type="PackedScene" id=6]
-[ext_resource path="res://resources/RobotoBold.tres" type="DynamicFont" id=7]
-[ext_resource path="res://resources/RobotoDF.tres" type="DynamicFont" id=8]
-[ext_resource path="res://resources/RobotoThin.tres" type="DynamicFont" id=9]
-[ext_resource path="res://resources/LaporanModalButton.stylebox" type="StyleBox" id=10]
-[ext_resource path="res://Scene/Nodes/BarNode.tscn" type="PackedScene" id=11]
+[ext_resource path="res://resources/RobotoDF.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Scene/Login/BackButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://resources/RobotoBold.tres" type="DynamicFont" id=4]
+[ext_resource path="res://resources/RobotoThin.tres" type="DynamicFont" id=5]
+[ext_resource path="res://resources/LaporanPopupBtnGroup.tres" type="ButtonGroup" id=6]
+[ext_resource path="res://resources/LaporanModalButton.stylebox" type="StyleBox" id=7]
+[ext_resource path="res://asset/moneyBG.png" type="Texture" id=8]
+[ext_resource path="res://resources/LaporanHeaderBG.tres" type="StyleBox" id=9]
+
+
 
 [sub_resource type="StyleBoxTexture" id=1]
-texture = ExtResource( 2 )
+texture = ExtResource( 8 )
 region_rect = Rect2( 0, 0, 1600, 1200 )
 
-[sub_resource type="GDScript" id=28]
+[sub_resource type="GDScript" id=2]
 script/source = "extends PanelContainer
 
 const RP_PREFIX = \"Rp\"
@@ -60,7 +61,7 @@ func _on_BackButton_pressed() -> void:
 	SceneChanger.change_scene(Globals.MainMenuScene, 'fade')
 "
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=3]
 script/source = "extends Button
 
 export(NodePath) var PopupPanelPath : NodePath
@@ -82,10 +83,18 @@ func _on_ModalButton_toggled(button_pressed: bool) -> void:
 		popup_panel.popup(modal_rect2)
 "
 
-[sub_resource type="StyleBoxFlat" id=29]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.380392, 0.811765, 0.94902, 0.501961 )
 border_width_left = 1
 border_color = Color( 1, 1, 1, 0 )
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
 
 [sub_resource type="StyleBoxEmpty" id=9]
 
@@ -97,18 +106,10 @@ border_color = Color( 1, 1, 1, 0 )
 
 [sub_resource type="StyleBoxEmpty" id=13]
 
-[sub_resource type="StyleBoxEmpty" id=16]
+[sub_resource type="StyleBoxEmpty" id=14]
 
-[sub_resource type="StyleBoxEmpty" id=17]
-
-[sub_resource type="StyleBoxEmpty" id=18]
-
-[sub_resource type="StyleBoxEmpty" id=19]
-
-[sub_resource type="StyleBoxEmpty" id=20]
-
-[sub_resource type="Theme" id=26]
-default_font = ExtResource( 8 )
+[sub_resource type="Theme" id=15]
+default_font = ExtResource( 2 )
 Label/colors/font_color = Color( 0, 0, 0, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
 Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
@@ -116,7 +117,7 @@ Label/constants/line_spacing = 3
 Label/constants/shadow_as_outline = 0
 Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
-Label/fonts/font = ExtResource( 7 )
+Label/fonts/font = ExtResource( 4 )
 Label/styles/normal = null
 LineEdit/colors/clear_button_color = Color( 0.88, 0.88, 0.88, 1 )
 LineEdit/colors/clear_button_color_pressed = Color( 1, 1, 1, 1 )
@@ -126,21 +127,21 @@ LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/font_color_uneditable = Color( 0.88, 0.88, 0.88, 0.5 )
 LineEdit/colors/selection_color = Color( 0.49, 0.49, 0.49, 1 )
 LineEdit/constants/minimum_spaces = 12
-LineEdit/fonts/font = ExtResource( 9 )
+LineEdit/fonts/font = ExtResource( 5 )
 LineEdit/icons/clear = null
 LineEdit/styles/focus = null
 LineEdit/styles/normal = null
 LineEdit/styles/read_only = null
 
-[sub_resource type="StyleBoxEmpty" id=23]
+[sub_resource type="StyleBoxEmpty" id=16]
 
-[sub_resource type="StyleBoxEmpty" id=24]
+[sub_resource type="StyleBoxEmpty" id=17]
 
-[sub_resource type="StyleBoxEmpty" id=25]
+[sub_resource type="StyleBoxEmpty" id=18]
 
-[sub_resource type="StyleBoxEmpty" id=30]
+[sub_resource type="StyleBoxEmpty" id=19]
 
-[sub_resource type="GDScript" id=27]
+[sub_resource type="GDScript" id=20]
 script/source = "extends PanelContainer
 
 const BarNodeScene = preload(\"res://Scene/Nodes/BarNode.tscn\")
@@ -183,7 +184,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
 custom_styles/panel = SubResource( 1 )
-script = SubResource( 28 )
+script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -200,14 +201,14 @@ custom_constants/separation = 10
 [node name="Header" type="PanelContainer" parent="VBoxContainer"]
 margin_right = 640.0
 margin_bottom = 40.0
-custom_styles/panel = ExtResource( 3 )
+custom_styles/panel = ExtResource( 9 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
 margin_right = 640.0
 margin_bottom = 40.0
 custom_constants/separation = 10
 
-[node name="BackButton" parent="VBoxContainer/Header/HBoxContainer" instance=ExtResource( 6 )]
+[node name="BackButton" parent="VBoxContainer/Header/HBoxContainer" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 40.0
@@ -231,23 +232,23 @@ margin_right = 640.0
 margin_bottom = 40.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 10 )
-custom_styles/focus = ExtResource( 10 )
-custom_styles/disabled = ExtResource( 10 )
-custom_styles/normal = ExtResource( 10 )
+custom_styles/hover = ExtResource( 7 )
+custom_styles/pressed = ExtResource( 7 )
+custom_styles/focus = ExtResource( 7 )
+custom_styles/disabled = ExtResource( 7 )
+custom_styles/normal = ExtResource( 7 )
 toggle_mode = true
 text = "Pilih"
 flat = false
-script = SubResource( 8 )
+script = SubResource( 3 )
 PopupPanelPath = NodePath("PopupPanel")
-ItemBtnGroup = ExtResource( 4 )
+ItemBtnGroup = ExtResource( 6 )
 
 [node name="PopupPanel" type="PopupPanel" parent="VBoxContainer/Header/HBoxContainer/ModalButton"]
 margin_right = 43.0
 margin_bottom = 27.0
 theme = ExtResource( 1 )
-custom_styles/panel = SubResource( 29 )
+custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -264,56 +265,56 @@ __meta__ = {
 margin_right = 47.0
 margin_bottom = 19.0
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 9 )
-custom_styles/pressed = SubResource( 10 )
-custom_styles/focus = SubResource( 11 )
-custom_styles/disabled = SubResource( 12 )
-custom_styles/normal = SubResource( 13 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
 toggle_mode = true
 action_mode = 0
-group = ExtResource( 4 )
+group = ExtResource( 6 )
 text = "Harian"
 
 [node name="WeekButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer"]
 margin_right = 47.0
 margin_bottom = 19.0
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 9 )
-custom_styles/pressed = SubResource( 10 )
-custom_styles/focus = SubResource( 11 )
-custom_styles/disabled = SubResource( 12 )
-custom_styles/normal = SubResource( 13 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
 toggle_mode = true
 action_mode = 0
-group = ExtResource( 4 )
+group = ExtResource( 6 )
 text = "Mingguan"
 
 [node name="MonthButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer"]
 margin_right = 47.0
 margin_bottom = 19.0
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 16 )
-custom_styles/pressed = SubResource( 17 )
-custom_styles/focus = SubResource( 18 )
-custom_styles/disabled = SubResource( 19 )
-custom_styles/normal = SubResource( 20 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/focus = SubResource( 12 )
+custom_styles/disabled = SubResource( 13 )
+custom_styles/normal = SubResource( 14 )
 toggle_mode = true
 action_mode = 0
-group = ExtResource( 4 )
+group = ExtResource( 6 )
 text = "Bulanan"
 
 [node name="YearButton" type="ToolButton" parent="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer"]
 margin_right = 47.0
 margin_bottom = 19.0
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 16 )
-custom_styles/pressed = SubResource( 17 )
-custom_styles/focus = SubResource( 18 )
-custom_styles/disabled = SubResource( 19 )
-custom_styles/normal = SubResource( 20 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/focus = SubResource( 12 )
+custom_styles/disabled = SubResource( 13 )
+custom_styles/normal = SubResource( 14 )
 toggle_mode = true
 action_mode = 0
-group = ExtResource( 4 )
+group = ExtResource( 6 )
 text = "Tahunan"
 
 [node name="Body" type="MarginContainer" parent="VBoxContainer"]
@@ -322,7 +323,7 @@ margin_right = 640.0
 margin_bottom = 360.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource( 26 )
+theme = SubResource( 15 )
 custom_constants/margin_right = 5
 custom_constants/margin_top = 0
 custom_constants/margin_left = 5
@@ -349,9 +350,9 @@ text = "Total Transaksi: "
 margin_top = 29.0
 margin_right = 122.0
 margin_bottom = 44.0
-custom_styles/read_only = SubResource( 23 )
-custom_styles/focus = SubResource( 24 )
-custom_styles/normal = SubResource( 25 )
+custom_styles/read_only = SubResource( 16 )
+custom_styles/focus = SubResource( 17 )
+custom_styles/normal = SubResource( 18 )
 custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
 text = "0"
 align = 1
@@ -367,9 +368,9 @@ text = "Pemasukan: "
 margin_top = 83.0
 margin_right = 122.0
 margin_bottom = 98.0
-custom_styles/read_only = SubResource( 23 )
-custom_styles/focus = SubResource( 24 )
-custom_styles/normal = SubResource( 25 )
+custom_styles/read_only = SubResource( 16 )
+custom_styles/focus = SubResource( 17 )
+custom_styles/normal = SubResource( 18 )
 custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
 text = "Rp 0"
 align = 1
@@ -385,9 +386,9 @@ text = "Pengeluaran:"
 margin_top = 137.0
 margin_right = 122.0
 margin_bottom = 152.0
-custom_styles/read_only = SubResource( 23 )
-custom_styles/focus = SubResource( 24 )
-custom_styles/normal = SubResource( 25 )
+custom_styles/read_only = SubResource( 16 )
+custom_styles/focus = SubResource( 17 )
+custom_styles/normal = SubResource( 18 )
 custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
 text = "Rp 0"
 align = 1
@@ -403,9 +404,9 @@ text = "Akumulasi:"
 margin_top = 191.0
 margin_right = 122.0
 margin_bottom = 206.0
-custom_styles/read_only = SubResource( 23 )
-custom_styles/focus = SubResource( 24 )
-custom_styles/normal = SubResource( 25 )
+custom_styles/read_only = SubResource( 16 )
+custom_styles/focus = SubResource( 17 )
+custom_styles/normal = SubResource( 18 )
 custom_colors/font_color_uneditable = Color( 0, 0, 0, 1 )
 text = "Rp 0"
 align = 1
@@ -417,8 +418,8 @@ margin_right = 630.0
 margin_bottom = 310.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 30 )
-script = SubResource( 27 )
+custom_styles/panel = SubResource( 19 )
+script = SubResource( 20 )
 BarContainerPath = NodePath("MarginContainer/ScrollContainer/MarginContainer/BarContainer")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Body/HBoxContainer/BarGraph"]
@@ -454,59 +455,76 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BarNode" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_top = 203.0
 margin_right = 55.0
 margin_bottom = 258.0
+BarName = "name"
+Amount = 0
 
-[node name="BarNode2" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode2" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_left = 85.0
 margin_top = 203.0
 margin_right = 140.0
 margin_bottom = 258.0
+BarName = "name"
+Amount = 0
 
-[node name="BarNode3" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode3" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_left = 170.0
 margin_top = 203.0
 margin_right = 225.0
 margin_bottom = 258.0
+BarName = "name"
+Amount = 0
 
-[node name="BarNode4" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode4" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_left = 255.0
 margin_top = 203.0
 margin_right = 310.0
 margin_bottom = 258.0
+BarName = "name"
+Amount = 0
 
-[node name="BarNode5" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode5" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_left = 340.0
 margin_top = 203.0
 margin_right = 395.0
 margin_bottom = 258.0
+BarName = "name"
+Amount = 0
 
-[node name="BarNode6" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode6" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_left = 425.0
 margin_top = 203.0
 margin_right = 480.0
 margin_bottom = 258.0
+BarName = "name"
+Amount = 0
 
-[node name="BarNode7" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode7" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_left = 510.0
 margin_top = 203.0
 margin_right = 565.0
 margin_bottom = 258.0
+BarName = "name"
+Amount = 0
 
-[node name="BarNode8" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode8" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_left = 595.0
 margin_top = 203.0
 margin_right = 650.0
 margin_bottom = 258.0
+BarName = "name"
+Amount = 0
 
-[node name="BarNode9" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance=ExtResource( 11 )]
+[node name="BarNode9" parent="VBoxContainer/Body/HBoxContainer/BarGraph/MarginContainer/ScrollContainer/MarginContainer/BarContainer" instance_placeholder="res://Scene/Nodes/BarNode.tscn"]
 margin_left = 680.0
 margin_top = 203.0
 margin_right = 735.0
 margin_bottom = 258.0
-
+BarName = "name"
+Amount = 0
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_ModalButton_toggled"]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]

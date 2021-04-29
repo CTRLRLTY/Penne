@@ -15,7 +15,6 @@ func _ready():
 	packer.pack(get_tree().current_scene)
 	set_current_scene(packer)
 	
-
 func set_current_scene(scene : PackedScene):
 	previous_scene = current_scene
 	current_scene = scene

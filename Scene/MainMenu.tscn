@@ -5,6 +5,7 @@
 [ext_resource path="res://resources/MainMenu.theme" type="Theme" id=3]
 [ext_resource path="res://resources/RobotoBarcodeFont.res" type="DynamicFontData" id=4]
 
+
 [sub_resource type="GDScript" id=1]
 script/source = "extends TextureRect
 
@@ -124,15 +125,14 @@ size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 2 )
 
 [node name="WelcomeLabel" type="Label" parent="HBoxContainer/RightAside"]
-margin_top = 164.0
+margin_top = 179.0
 margin_right = 213.0
-margin_bottom = 195.0
+margin_bottom = 181.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Welcome User"
 align = 1
 autowrap = true
-
 [connection signal="pressed" from="HBoxContainer/Main/ButtonContainer/TransactionButton" to="." method="_on_TransactionButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/Main/ButtonContainer/ManageButton" to="." method="_on_ManageButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/Main/ButtonContainer/LaporanButton" to="." method="_on_LaporanButton_pressed"]

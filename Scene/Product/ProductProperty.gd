@@ -23,7 +23,6 @@ func _ready():
 			prop_value = "0"
 			input.placeholder_text = "0"
 		TYPE_STRING:
-			prop_value = ""
 			input.placeholder_text = "X"
 		
 	title.text = prop_name

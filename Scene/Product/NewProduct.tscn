@@ -8,6 +8,7 @@
 [ext_resource path="res://Scene/Product/ProductProperty.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scene/Product/NewProduct.gd" type="Script" id=10]
 
+
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 0.462745 )
 corner_radius_top_left = 15
@@ -32,7 +33,7 @@ __meta__ = {
 }
 ImageRectPath = NodePath("../NewProduct/VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/ImageRect")
 EditImageButtonPath = NodePath("../NewProduct/VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/EditImageButton")
-NamePropPath = NodePath("../NewProduct/VBoxContainer/MarginContainer/HBoxContainer/Left/NameProperty")
+NamePropPath = NodePath("VBoxContainer/MarginContainer/HBoxContainer/Left/NameProperty")
 AmountPropPath = NodePath("../NewProduct/VBoxContainer/MarginContainer/HBoxContainer/Left/AmountProperty")
 ModalPropPath = NodePath("../NewProduct/VBoxContainer/MarginContainer/HBoxContainer/Right/ModalProperty")
 PricePropPath = NodePath("../NewProduct/VBoxContainer/MarginContainer/HBoxContainer/Right/PriceProperty")
@@ -88,7 +89,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
 
-[node name="ProductProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Left" instance=ExtResource( 9 )]
+[node name="NameProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Left" instance=ExtResource( 9 )]
+prop_name = "Nama"
 
 [node name="AmountProperty" parent="VBoxContainer/MarginContainer/HBoxContainer/Left" instance=ExtResource( 9 )]
 margin_top = 183.0
@@ -188,7 +190,6 @@ margin_bottom = 236.0
 size_flags_vertical = 10
 prop_name = "Harga"
 prop_type = 2
-
 [connection signal="pressed" from="VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/EditImageButton" to="." method="_on_EditImageButton_pressed"]
 [connection signal="gui_input" from="VBoxContainer/MarginContainer/HBoxContainer/Middle/PanelContainer/MarginContainer/VBoxContainer/ImageRect" to="." method="_on_ImageRect_gui_input"]

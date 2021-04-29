@@ -52,7 +52,7 @@ func _on_SaveButton_pressed():
 		"stock": amount_prop.prop_value,
 		"price": price_prop.prop_value,
 		"modal": modal_prop.prop_value,
-		"imagePath": "res://asset/godot.png"
+		"imagePath": "res://resources/godot.png"
 	}
 		
 	if image_rect.texture: 

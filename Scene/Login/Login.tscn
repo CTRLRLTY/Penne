@@ -67,6 +67,10 @@ func _on_Tween_tween_all_completed():
 	if vanilla_label:
 		vanilla_label.queue_free()
 		vanilla_login.show()
+
+
+func _on_ForgotPassLink_pressed() -> void:
+	OS.show_virtual_keyboard(\"hello\", true)
 "
 
 [sub_resource type="GDScript" id=2]
@@ -460,11 +464,11 @@ text = "Register"
 [node name="BackButton" parent="." instance=ExtResource( 7 )]
 
 [node name="Tween" type="Tween" parent="."]
-
 [connection signal="text_changed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/EmailInput" to="LoginContainer" method="_on_EmailInput_text_changed"]
 [connection signal="text_changed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/PasswordInput" to="LoginContainer" method="_on_PasswordInput_text_changed"]
 [connection signal="pressed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LoginButton" to="LoginContainer" method="_on_LoginButton_pressed"]
 [connection signal="pressed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/RegisterLink" to="." method="_on_RegisterLink_pressed"]
+[connection signal="pressed" from="LoginContainer/Left/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer/ForgotPassLink" to="." method="_on_ForgotPassLink_pressed"]
 [connection signal="text_changed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/FullNameInput" to="RegisterContainer" method="_on_FullNameInput_text_changed"]
 [connection signal="text_changed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/EmailInput" to="RegisterContainer" method="_on_EmailInput_text_changed"]
 [connection signal="text_changed" from="RegisterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LineEditContainer/PasswordInput" to="RegisterContainer" method="_on_PasswordInput_text_changed"]
