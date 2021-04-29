@@ -34,7 +34,6 @@ var image_plugin
 var login_user setget set_login_user
 
 func _ready():
-	
 	_set_date()
 	print_debug(OS.get_user_data_dir())
 	var dir = Directory.new()
