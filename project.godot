@@ -17,7 +17,7 @@ _global_script_class_icons={
 
 config/name="Penne"
 run/main_scene="res://Scene/Login/Login.tscn"
-boot_splash/image="res://asset/loginbg.png"
+boot_splash/image="res://resources/splash.png"
 boot_splash/fullsize=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
