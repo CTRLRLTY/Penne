@@ -148,8 +148,7 @@ func add_user(email: String, fullname: String, password: String) -> void:
 func user_valid(email: String, password: String) -> bool:
 	if user_db.has(email):
 		return user_db[email]["password"] == password
-	else:
-		return false
+	return false
 	
 func remove_resource(res_name: String):
 	if not resource_db.empty():
@@ -172,7 +171,6 @@ func new_trans(trans: Dictionary) -> void:
 	_new_report(trans.duplicate(true), "month", _month)
 	_new_report(trans.duplicate(true), "week", _week)
 	_new_report(trans.duplicate(true), "day", _day)
-	
 	
 	trans_db[_year] = trans_db.get(_year, {})
 	trans_db[_year][_month] = trans_db[_year].get(_month,{})
