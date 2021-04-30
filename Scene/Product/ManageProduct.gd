@@ -40,7 +40,7 @@ func _clear_grid():
 	for product_node in product_grid.get_children():
 		product_node.queue_free()
 	
-	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "node_removed")
 	
 func _index_pages():
 	#This code makes me think of life and death every day
@@ -80,6 +80,7 @@ func _on_PrevPage_pressed():
 		current_page = prev_page
 		_set_pagination(current_page, pages.size())
 		yield(_clear_grid(), "completed")
+		
 		_show_page(pages[current_page])
 
 func _on_NextPage_pressed():
@@ -89,6 +90,7 @@ func _on_NextPage_pressed():
 		current_page = next_page
 		_set_pagination(current_page, pages.size())
 		yield(_clear_grid(), "completed")
+
 		_show_page(pages[current_page])
 		
 func _on_Product_gui_input(event):

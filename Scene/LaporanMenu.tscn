@@ -10,8 +10,6 @@
 [ext_resource path="res://asset/moneyBG.png" type="Texture" id=8]
 [ext_resource path="res://resources/LaporanHeaderBG.tres" type="StyleBox" id=9]
 
-
-
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 8 )
 region_rect = Rect2( 0, 0, 1600, 1200 )
@@ -528,14 +526,14 @@ Amount = 0
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_ModalButton_toggled"]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
-[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="." method="_on_Report_toggled" binds= [ "day" ]]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "day" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/DayButton" to="." method="_on_Report_toggled" binds= [ "day" ]]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
-[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="." method="_on_Report_toggled" binds= [ "week" ]]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "week" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/WeekButton" to="." method="_on_Report_toggled" binds= [ "week" ]]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
-[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="." method="_on_Report_toggled" binds= [ "month" ]]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "month" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/MonthButton" to="." method="_on_Report_toggled" binds= [ "month" ]]
 [connection signal="pressed" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="VBoxContainer/Header/HBoxContainer/ModalButton" method="_on_Item_pressed"]
-[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="." method="_on_Report_toggled" binds= [ "year" ]]
 [connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="VBoxContainer/Body/HBoxContainer/BarGraph" method="_on_Report_toggled" binds= [ "year" ]]
+[connection signal="toggled" from="VBoxContainer/Header/HBoxContainer/ModalButton/PopupPanel/VBoxContainer/YearButton" to="." method="_on_Report_toggled" binds= [ "year" ]]

@@ -68,7 +68,6 @@ func _on_Tween_tween_all_completed():
 		vanilla_label.queue_free()
 		vanilla_login.show()
 
-
 func _on_ForgotPassLink_pressed() -> void:
 	OS.show_virtual_keyboard(\"hello\", true)
 "
@@ -203,6 +202,7 @@ texture = ExtResource( 4 )
 expand = true
 script = SubResource( 1 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 TweenPath = NodePath("Tween")
